@@ -67,7 +67,7 @@
                         class="w-full bg-white text-blue-700 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition shadow flex items-center justify-center gap-2 cursor-pointer">
                     <i class="bi bi-arrow-repeat text-base"></i> Generate Kode Baru
                 </button>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <button @click="copyOtp()" 
                             :disabled="isRevoked"
                             class="w-full bg-blue-800/60 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2 rounded-xl text-xs transition border border-white/10 flex items-center justify-center gap-1 cursor-pointer">
@@ -113,7 +113,7 @@
                 </p>
             </div>
 
-            <div class="flex items-center justify-between pt-4 border-t border-gray-100 text-xs text-gray-400">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 pt-4 border-t border-gray-100 text-xs text-gray-400">
                 <span>Tanggal Sesi: 28 Agustus 2026</span>
                 <span>Waktu Sesi: 16.00 - 17.30 WIB</span>
             </div>

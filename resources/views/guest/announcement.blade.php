@@ -12,7 +12,7 @@
     <div class="flex flex-col gap-4">
 
         <div class="bg-white rounded-lg shadow p-5">
-            <div class="flex items-center justify-between mb-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">Akademik</span>
                     <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">Published</span>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow p-5">
-            <div class="flex items-center justify-between mb-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-1 rounded">Kegiatan</span>
                     <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">Published</span>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow p-5">
-            <div class="flex items-center justify-between mb-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-1 rounded">Kegiatan</span>
                     <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">Published</span>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow p-5">
-            <div class="flex items-center justify-between mb-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-1 rounded">Kegiatan</span>
                     <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">Published</span>

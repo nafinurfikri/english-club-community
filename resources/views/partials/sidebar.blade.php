@@ -8,7 +8,7 @@
 
 <aside 
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-    class="w-64 p-4 border-r border-gray-200 bg-gray-100 h-screen overflow-y-auto
+    class="w-64 max-w-[85vw] p-4 border-r border-gray-200 bg-gray-100 h-screen overflow-y-auto flex flex-col
            fixed lg:sticky top-0 z-40 transition-transform duration-300">
 
     <button @click="sidebarOpen = false" class="lg:hidden mb-4 text-gray-500">
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <nav class="flex flex-col gap-1" 
+    <nav class="flex flex-col flex-1 gap-1"
          x-data="{ 
              hoveredItem: null,
              activeItem: null, 
@@ -42,6 +42,7 @@
             }
                 }">
 
+        @if (request()->routeIs('home', 'about', 'announcement', 'gallery'))
         <!-- GUEST SECTION -->
         <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
             Public / Guest
@@ -94,7 +95,9 @@
             <i class="bi bi-image text-base"></i>
             <span>Gallery</span>
         </a>
+        @endif
 
+        @if (request()->routeIs('admin.*'))
         <!-- ADMIN SECTION -->
         <div class="px-3 pt-4 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
             Admin Panel
@@ -171,6 +174,9 @@
             <i class="bi bi-images text-base"></i>
             <span>Kelola Galeri</span>
         </a>
+        @endif
+
+        @if (request()->routeIs('student.*'))
     <!-- STUDENT SECTION -->
     <div class="px-3 pt-4 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
         Student Menu
@@ -212,44 +218,56 @@
         <span>Presensi</span>
     </a>
 
-    <a href="#"
+    <a href="{{ route('student.grades') }}"
         @click="setActive('student_grades')"
             @mouseenter="setHover('student_grades')"
         @mouseleave="clearHover()"
-        :class="hoveredItem === 'student_grades' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
+        :class="(hoveredItem === 'student_grades' || activeItem === 'student_grades' || ({{ request()->routeIs('student.grades') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
         class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
         <i class="bi bi-award text-base"></i>
         <span>Nilai Saya</span>
     </a>
 
-    <a href="#"
+    <a href="{{ route('student.announcements') }}"
         @click="setActive('student_announcements')"
             @mouseenter="setHover('student_announcements')"
         @mouseleave="clearHover()"
-        :class="hoveredItem === 'student_announcements' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
+        :class="(hoveredItem === 'student_announcements' || activeItem === 'student_announcements' || ({{ request()->routeIs('student.announcements') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
         class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
         <i class="bi bi-bell text-base"></i>
         <span>Pengumuman</span>
     </a>
 
-    <a href="#"
+    <a href="{{ route('student.profile') }}"
         @click="setActive('student_profile')"
             @mouseenter="setHover('student_profile')"
         @mouseleave="clearHover()"
-        :class="hoveredItem === 'student_profile' ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
+        :class="(hoveredItem === 'student_profile' || activeItem === 'student_profile' || ({{ request()->routeIs('student.profile') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
         class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
         <i class="bi bi-person text-base"></i>
         <span>Profile &amp; Stats</span>
     </a>
+        @endif
 
     </nav>
 
+    @if (request()->routeIs('admin.*'))
+    <!-- Admin User Card -->
+    <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">AD</div>
+        <div class="min-w-0">
+            <p class="text-sm font-bold text-gray-900 truncate">Administrator</p>
+            <span class="text-xs text-gray-500">Admin Panel</span>
+        </div>
+    </div>
+    @elseif (request()->routeIs('student.*'))
     <!-- Student User Card -->
-    <div class="mt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
+    <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
         <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">BS</div>
         <div class="min-w-0">
             <p class="text-sm font-bold text-gray-900 truncate">Budi Santoso</p>
             <span class="text-xs text-gray-500">Student ID: 2025041</span>
         </div>
     </div>
+    @endif
 </aside>

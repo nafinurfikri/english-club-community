@@ -3,14 +3,14 @@
 @section('title', 'Mata Pelajaran - Student English Club')
 
 @section('header')
-    <header class="bg-white shadow-sm border-b border-gray-100 px-4 sm:px-6 py-4 flex items-center justify-between gap-4"
+    <header class="bg-white shadow-sm border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3"
             x-data="{ search: '' }">
-        <div>
+        <div class="min-w-0">
             <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Kurikulum &amp; Mata Pelajaran</h1>
             <p class="text-xs sm:text-sm text-gray-500">View details of your current enrollments and available learning modules.</p>
         </div>
 
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-2 sm:gap-4 shrink-0">
             <div class="relative hidden md:block w-40 lg:w-56">
                 <i class="bi bi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
                 <input type="text" x-model="search" placeholder="Search"

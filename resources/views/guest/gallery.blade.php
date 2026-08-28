@@ -11,7 +11,7 @@
     </div>
 
     {{-- Filter tab --}}
-    <div class="flex items-center gap-2 mb-6" x-data="{ activeTab: 'all' }">
+    <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-1" x-data="{ activeTab: 'all' }">
         <button 
             @click="activeTab = 'all'"
             :class="activeTab === 'all' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'"

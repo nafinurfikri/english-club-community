@@ -3,13 +3,13 @@
 @section('title', 'Dashboard - Student English Club')
 
 @section('header')
-    <header class="bg-white shadow-sm border-b border-gray-100 px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-        <div>
+    <header class="bg-white shadow-sm border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+        <div class="min-w-0">
             <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Welcome Back, Budi!</h1>
             <p class="text-xs sm:text-sm text-gray-500">Ready to level up your English skills today?</p>
         </div>
 
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-2 sm:gap-4 shrink-0">
             <button class="relative text-gray-500 hover:text-gray-700 transition">
                 <i class="bi bi-bell text-xl"></i>
                 <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
@@ -26,7 +26,7 @@
 
     <!-- Hero Banner -->
     <div class="bg-blue-600 rounded-2xl p-6 sm:p-8 text-white mb-6 shadow-sm flex flex-col lg:flex-row justify-between lg:items-center items-start gap-5">
-        <div>
+        <div class="min-w-0">
             <span class="inline-block bg-white/15 border border-white/30 text-xs px-2.5 py-0.5 rounded-full font-semibold mb-3">Academic Term: 2026 - Semester 1</span>
             <h2 class="text-2xl sm:text-3xl font-bold mb-2">English Proficiency Excellence Map</h2>
             <p class="text-blue-100 text-sm max-w-md">Keep track of your active learning plans, attendance status, and recent feedback directly from our portal.</p>
