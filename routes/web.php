@@ -43,3 +43,17 @@ Route::get('/admin/announcements', function () {
 Route::get('/admin/gallery', function () {
     return view('admin.gallery');
 })->name('admin.gallery');
+
+// Student Routes
+Route::get('/student/dashboard', function () {
+    return view('student.dashboard');
+})->name('student.dashboard');
+
+Route::get('/student/subjects', function () {
+    return view('student.subjects');
+})->name('student.subjects');
+
+
+Route::get('/student/attendance', function () {
+    return view('student.attendance');
+})->name('student.attendance');

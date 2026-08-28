@@ -14,7 +14,11 @@
 
         <div class="flex-1 flex flex-col min-w-0">
 
-            @include('partials.header')
+            @hasSection('header')
+                @yield('header')
+            @else
+                @include('partials.header')
+            @endif
 
             <main class="p-6">
                 @yield('content')
