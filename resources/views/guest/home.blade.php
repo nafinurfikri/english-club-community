@@ -119,15 +119,15 @@
             <div class="bg-white border border-gray-200 rounded-lg p-4">
                 <p class="text-sm text-gray-600 mb-3">"Skill speaking aku naik banget setelah ikut EC Dwiguna."</p>
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-medium">BS</div>
-                    <p class="text-sm font-medium text-gray-900">Budi Santoso</p>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-medium">KL</div>
+                    <p class="text-sm font-medium text-gray-900">Kelvin Muaezin Lubis</p>
                 </div>
             </div>
             <div class="bg-white border border-gray-200 rounded-lg p-4">
                 <p class="text-sm text-gray-600 mb-3">"Kegiatannya seru, banyak teman baru juga."</p>
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-medium">SR</div>
-                    <p class="text-sm font-medium text-gray-900">Siti Rahmawati</p>
+                    <div class="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-medium">AP</div>
+                    <p class="text-sm font-medium text-gray-900">Anindya Eka Pratiwi</p>
                 </div>
             </div>
         </div>

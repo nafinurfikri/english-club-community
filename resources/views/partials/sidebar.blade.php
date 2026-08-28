@@ -1,9 +1,3 @@
-@php
-    $activeClass = 'bg-blue-500 text-white hover:bg-gray-700';
-    $normalClass = 'text-gray-900 hover:bg-blue-500 hover:text-white';
-@endphp
-
-{{-- Overlay gelap saat sidebar terbuka di HP --}}
 <div 
     x-show="sidebarOpen" 
     @click="sidebarOpen = false"
@@ -21,12 +15,15 @@
         <i class="bi bi-x-lg text-xl"></i>
     </button>
 
-    <div class="flex items-center gap-2 mb-6 text-blue-500">
-        <img src="{{ asset('images/ec.png') }}" alt="Logo English Club" class="w-12 h-12">
-        <h2 class="text-xl font-bold mb-2">EC Dwiguna</h2>
+    <div class="flex items-center gap-2 mb-6 text-blue-600">
+        <img src="{{ asset('images/ec.png') }}" alt="Logo English Club" class="w-10 h-10 object-contain" onerror="this.src='https://ui-avatars.com/api/?name=EC&background=3b82f6&color=fff'">
+        <div>
+            <h2 class="text-lg font-bold leading-tight">EC Dwiguna</h2>
+            <span class="text-xs text-gray-500">Community Portal</span>
+        </div>
     </div>
 
-    <nav class="flex flex-col gap-2" 
+    <nav class="flex flex-col gap-1" 
          x-data="{ 
              hoveredItem: null, 
              leaveTimeout: null,
@@ -41,14 +38,19 @@
              }
          }">
 
+        <!-- GUEST SECTION -->
+        <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+            Public / Guest
+        </div>
+
         <a href="{{ route('home') }}" 
             @mouseenter="setHover('home')"
             @mouseleave="clearHover()"
             :class="(hoveredItem === 'home' || ({{ request()->routeIs('home') ? 'true' : 'false' }} && hoveredItem === null)) 
                     ? 'bg-blue-500 text-white' 
-                    : 'text-gray-900'"
-            class="flex items-center gap-2 px-3 py-2 rounded transition">
-            <i class="bi bi-house"></i>
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-house text-base"></i>
             <span>Home</span>
         </a>
 
@@ -57,9 +59,9 @@
             @mouseleave="clearHover()"
             :class="(hoveredItem === 'about' || ({{ request()->routeIs('about') ? 'true' : 'false' }} && hoveredItem === null)) 
                     ? 'bg-blue-500 text-white' 
-                    : 'text-gray-900'"
-            class="flex items-center gap-2 px-3 py-2 rounded transition">
-            <i class="bi bi-info-circle"></i>
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-info-circle text-base"></i>
             <span>About</span>
         </a>
 
@@ -68,9 +70,9 @@
             @mouseleave="clearHover()"
             :class="(hoveredItem === 'announcement' || ({{ request()->routeIs('announcement') ? 'true' : 'false' }} && hoveredItem === null)) 
                     ? 'bg-blue-500 text-white' 
-                    : 'text-gray-900'"
-            class="flex items-center gap-2 px-3 py-2 rounded transition">
-            <i class="bi bi-bell"></i>
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-bell text-base"></i>
             <span>Announcement</span>
         </a>
 
@@ -79,10 +81,81 @@
             @mouseleave="clearHover()"
             :class="(hoveredItem === 'gallery' || ({{ request()->routeIs('gallery') ? 'true' : 'false' }} && hoveredItem === null)) 
                     ? 'bg-blue-500 text-white' 
-                    : 'text-gray-900'"
-            class="flex items-center gap-2 px-3 py-2 rounded transition">
-            <i class="bi bi-image"></i>
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-image text-base"></i>
             <span>Gallery</span>
+        </a>
+
+        <!-- ADMIN SECTION -->
+        <div class="px-3 pt-4 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+            Admin Panel
+        </div>
+
+        <a href="{{ route('admin.dashboard') }}" 
+            @mouseenter="setHover('admin_dashboard')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_dashboard' || ({{ request()->routeIs('admin.dashboard') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-speedometer2 text-base"></i>
+            <span>Overview Admin</span>
+        </a>
+
+        <a href="{{ route('admin.attendance') }}" 
+            @mouseenter="setHover('admin_attendance')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_attendance' || ({{ request()->routeIs('admin.attendance') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-qr-code-scan text-base"></i>
+            <span>Kehadiran & OTP</span>
+        </a>
+
+        <a href="{{ route('admin.students') }}" 
+            @mouseenter="setHover('admin_students')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_students' || ({{ request()->routeIs('admin.students') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-people text-base"></i>
+            <span>Data Siswa</span>
+        </a>
+
+        <a href="{{ route('admin.grades') }}" 
+            @mouseenter="setHover('admin_grades')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_grades' || ({{ request()->routeIs('admin.grades') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-journal-bookmark text-base"></i>
+            <span>Data Nilai</span>
+        </a>
+
+        <a href="{{ route('admin.announcements') }}" 
+            @mouseenter="setHover('admin_announcements')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_announcements' || ({{ request()->routeIs('admin.announcements') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-megaphone text-base"></i>
+            <span>Kelola Pengumuman</span>
+        </a>
+
+        <a href="{{ route('admin.gallery') }}" 
+            @mouseenter="setHover('admin_gallery')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_gallery' || ({{ request()->routeIs('admin.gallery') ? 'true' : 'false' }} && hoveredItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition">
+            <i class="bi bi-images text-base"></i>
+            <span>Kelola Galeri</span>
         </a>
 
     </nav>
