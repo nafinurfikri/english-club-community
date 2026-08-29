@@ -14,10 +14,6 @@
             <i class="bi bi-plus-circle-fill"></i> Tambah Mata Pelajaran
         </button>
 
-        @if (session('status'))
-            <div class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">{{ session('status') }}</div>
-        @endif
-
         <!-- Modal Tambah Mata Pelajaran -->
         <div x-show="showCreate"
              x-transition.opacity

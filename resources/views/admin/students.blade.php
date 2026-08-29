@@ -15,10 +15,6 @@
             <i class="bi bi-person-plus-fill"></i> Tambah Siswa Baru
         </button>
 
-        @if (session('status'))
-            <div class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">{{ session('status') }}</div>
-        @endif
-
         <!-- Modal Tambah Siswa Baru (Alpine.js) -->
         <div x-show="showModal" 
              x-transition.opacity

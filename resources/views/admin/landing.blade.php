@@ -11,10 +11,6 @@
         </div>
     </div>
 
-    @if (session('status'))
-        <div class="mb-4 px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">{{ session('status') }}</div>
-    @endif
-
     @php
         $sections = [
             'hero' => ['label' => 'Hero Banner', 'fields' => ['title', 'subtitle']],

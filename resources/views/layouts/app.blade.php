@@ -8,6 +8,8 @@
 </head>
 <body class="bg-gray-50 overflow-x-hidden">
 
+    @include('partials.toast')
+
     <div class="flex min-h-screen" @if (request()->routeIs('admin.*') || (request()->routeIs('student.*') && !request()->routeIs('student.register'))) x-data="{ sidebarOpen: false }" @endif>
 
         @if (request()->routeIs('admin.*') || (request()->routeIs('student.*') && !request()->routeIs('student.register')))

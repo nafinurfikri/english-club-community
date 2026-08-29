@@ -10,23 +10,6 @@
             <p class="mt-2 text-sm text-gray-500">Buat akun untuk mengakses dashboard dan kegiatan English Club.</p>
         </div>
 
-        @if (session('success'))
-            <div class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700" role="status">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">
-                <p class="font-semibold">Pendaftaran belum berhasil.</p>
-                <ul class="mt-1 list-inside list-disc">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form method="POST" action="{{ route('student.register.store') }}" class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8">
             @csrf
 

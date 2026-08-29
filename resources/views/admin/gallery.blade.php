@@ -15,10 +15,6 @@
             <i class="bi bi-cloud-upload-fill"></i> Upload Foto Baru
         </button>
 
-        @if (session('status'))
-            <div class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">{{ session('status') }}</div>
-        @endif
-
         <!-- Modal Upload Foto Galeri -->
         <div x-show="showModal" 
              x-transition.opacity
@@ -71,10 +67,6 @@
                 <i class="bi bi-plus-circle-fill"></i> Tambah Kategori
             </button>
         </div>
-
-        @if ($errors->has('gallery_category'))
-            <div class="mb-3 px-4 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">{{ $errors->first('gallery_category') }}</div>
-        @endif
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             @foreach ($categories as $category)

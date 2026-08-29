@@ -45,13 +45,6 @@
             <p class="text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">Enter the 6-digit code provided by your instructor to confirm your presence for today's session.</p>
         </div>
 
-        @if (session('status'))
-            <div class="relative z-10 mb-4 w-full max-w-md rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('status') }}</div>
-        @endif
-        @if ($errors->any())
-            <div class="relative z-10 mb-4 w-full max-w-md rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{{ $errors->first() }}</div>
-        @endif
-
         <!-- OTP Card -->
         <div class="relative z-10 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8 mb-12">
             <div class="flex justify-center mb-7">
