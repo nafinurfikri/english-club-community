@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Announcement;
 use App\Models\ClubSession;
 use App\Models\GradeCategory;
+use App\Models\LandingSection;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -46,6 +47,19 @@ class DatabaseSeeder extends Seeder
             Subject::firstOrCreate(
                 ['name' => $subject['name']],
                 [...$subject, 'sort_order' => $index, 'is_published' => true]
+            );
+        }
+
+        $landingSections = [
+            'hero' => ['title' => 'Belajar Bahasa Inggris Bareng Komunitas', 'subtitle' => 'Gabung dengan English Club Community, tempat latihan speaking, sharing, dan kegiatan seru bareng teman sebaya.'],
+            'about' => ['title' => 'Apa itu English Club?', 'body' => 'English Club Community adalah wadah bagi siswa untuk mengasah kemampuan bahasa Inggris melalui kegiatan yang menyenangkan dan kolaboratif.'],
+            'cta' => ['title' => 'Yuk, Gabung Sekarang!', 'body' => 'Jadi bagian dari EC Dwiguna dan asah kemampuan bahasa Inggrismu bareng komunitas.'],
+        ];
+
+        foreach ($landingSections as $key => $content) {
+            LandingSection::updateOrCreate(
+                ['key' => $key],
+                ['draft_content' => $content, 'published_content' => $content]
             );
         }
 

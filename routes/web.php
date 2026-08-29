@@ -58,9 +58,17 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::put('/announcements/{announcement}', [AdminContentController::class, 'updateAnnouncement'])->name('admin.announcements.update');
     Route::delete('/announcements/{announcement}', [AdminContentController::class, 'deleteAnnouncement'])->name('admin.announcements.destroy');
 
+    Route::get('/landing', [AdminContentController::class, 'landingIndex'])->name('admin.landing');
+    Route::put('/landing/{key}', [AdminContentController::class, 'landing'])->name('admin.landing.update');
+
     Route::get('/gallery', [AdminContentController::class, 'gallery'])->name('admin.gallery');
     Route::post('/gallery', [AdminContentController::class, 'galleryItem'])->name('admin.gallery.store');
+    Route::put('/gallery/{galleryItem}', [AdminContentController::class, 'updateGallery'])->name('admin.gallery.update');
     Route::delete('/gallery/{galleryItem}', [AdminContentController::class, 'deleteGallery'])->name('admin.gallery.destroy');
+
+    Route::post('/gallery-categories', [AdminContentController::class, 'storeCategory'])->name('admin.gallery-categories.store');
+    Route::put('/gallery-categories/{galleryCategory}', [AdminContentController::class, 'updateCategory'])->name('admin.gallery-categories.update');
+    Route::delete('/gallery-categories/{galleryCategory}', [AdminContentController::class, 'deleteCategory'])->name('admin.gallery-categories.destroy');
 });
 
 // Student Routes

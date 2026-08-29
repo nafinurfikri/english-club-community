@@ -4,12 +4,18 @@
 
 @section('content')
 
+    @php
+        $hero = $sections?->get('hero')?->published_content ?? [];
+        $about = $sections?->get('about')?->published_content ?? [];
+        $cta = $sections?->get('cta')?->published_content ?? [];
+    @endphp
+
     <section class="bg-blue-50 rounded-2xl px-6 py-16 text-center mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Belajar Bahasa Inggris Bareng Komunitas
+            {{ $hero['title'] ?? 'Belajar Bahasa Inggris Bareng Komunitas' }}
         </h1>
         <p class="text-gray-600 max-w-xl mx-auto mb-6">
-            Gabung dengan English Club Community, tempat latihan speaking, sharing, dan kegiatan seru bareng teman sebaya.
+            {{ $hero['subtitle'] ?? 'Gabung dengan English Club Community, tempat latihan speaking, sharing, dan kegiatan seru bareng teman sebaya.' }}
         </p>
         <div class="flex justify-center gap-3">
             <a href="{{ route('student.register') }}" class="px-5 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition">
@@ -24,8 +30,8 @@
     <section class="mb-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-3">Apa itu English Club?</h2>
-                <p class="text-gray-600 leading-relaxed">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque, repellat eligendi eum voluptatibus accusantium suscipit molestias veritatis iusto quaerat aliquam dolorum adipisci velit, inventore reprehenderit laudantium minima harum ipsam quam ea explicabo possimus facere. Amet dolor nulla obcaecati magnam voluptatem?</p>
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">{{ $about['title'] ?? 'Apa itu English Club?' }}</h2>
+                <p class="text-gray-600 leading-relaxed">{{ $about['body'] ?? 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque, repellat eligendi eum voluptatibus accusantium suscipit molestias veritatis iusto quaerat aliquam dolorum adipisci velit, inventore reprehenderit laudantium minima harum ipsam quam ea explicabo possimus facere. Amet dolor nulla obcaecati magnam voluptatem?' }}</p>
             </div>
             <div>
                 <img src="{{ asset('images/tentang-ec.jpg') }}" alt="Kegiatan English Club" class="w-full h-64 object-cover rounded-xl">
@@ -170,8 +176,8 @@
         </div>
     </section>
     <section class="bg-blue-50 rounded-2xl px-6 py-12 text-center">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Yuk, Gabung Sekarang!</h2>
-        <p class="text-gray-900 text-sm mb-6">Jadi bagian dari EC Dwiguna dan asah kemampuan bahasa Inggrismu bareng komunitas.</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ $cta['title'] ?? 'Yuk, Gabung Sekarang!' }}</h2>
+        <p class="text-gray-900 text-sm mb-6">{{ $cta['body'] ?? 'Jadi bagian dari EC Dwiguna dan asah kemampuan bahasa Inggrismu bareng komunitas.' }}</p>
         <div class="flex justify-center gap-3">
             <a href="{{ route('student.register') }}" class="px-5 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-500 hover:border transition">
                 Sign Up

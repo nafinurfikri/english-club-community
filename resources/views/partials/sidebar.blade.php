@@ -186,6 +186,18 @@
             <i class="bi bi-images text-base"></i>
             <span>Kelola Galeri</span>
         </a>
+
+        <a href="{{ route('admin.landing') }}" 
+            @click="setActive('admin_landing')"
+            @mouseenter="setHover('admin_landing')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_landing' || activeItem === 'admin_landing' || ({{ request()->routeIs('admin.landing') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
+            <i class="bi bi-layout-text-window-reverse text-base"></i>
+            <span>Edit Landing Page</span>
+        </a>
         @endif
 
         @if (request()->routeIs('student.*'))
