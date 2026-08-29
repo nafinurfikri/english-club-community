@@ -13,10 +13,43 @@
             <a href="{{ route('gallery') }}" class="px-2 sm:px-3 py-2 rounded-lg whitespace-nowrap {{ request()->routeIs('gallery') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50' }}">Gallery</a>
         </nav>
 
+        @auth
+        <div class="relative shrink-0" x-data="{ open: false }">
+            <button @click="open = !open" class="flex items-center gap-2 hover:opacity-90 transition">
+                <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold uppercase shrink-0">
+                    {{ str(auth()->user()->name)->substr(0, 2) }}
+                </div>
+                <span class="hidden sm:block text-sm font-semibold text-gray-900 max-w-[8rem] truncate">{{ auth()->user()->name }}</span>
+                <i class="bi bi-chevron-down text-xs text-gray-500"></i>
+            </button>
+            <div x-show="open" @click.away="open = false"
+                 x-transition
+                 class="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg py-1.5 z-50">
+                <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('student.dashboard') }}"
+                   class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                @if (auth()->user()->role !== 'admin')
+                <a href="{{ route('student.profile') }}"
+                   class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                    <i class="bi bi-person"></i> Profile
+                </a>
+                @endif
+                <div class="my-1 border-t border-gray-100"></div>
+                <form method="POST" action="{{ route('logout') }}" class="px-0">
+                    @csrf
+                    <button type="submit" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+        @else
         <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shrink-0">
             <i class="bi bi-person-fill"></i>
             Login
         </a>
+        @endauth
     </div>
 </header>
 @else
@@ -42,12 +75,6 @@
         <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold uppercase">
             {{ str(auth()->user()?->name ?? '?')->substr(0, 2) }}
         </div>
-        @auth
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="ml-1 text-gray-500 hover:text-gray-700 text-xs font-semibold"><i class="bi bi-box-arrow-right"></i></button>
-        </form>
-        @endauth
     </div>
 </header>
 @endif

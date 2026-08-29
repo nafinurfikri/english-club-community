@@ -275,27 +275,47 @@
 
     </nav>
 
-    @if (request()->routeIs('admin.*'))
-    <!-- Admin User Card -->
-    <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
-        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0 uppercase">
-            {{ str(auth()->user()?->name ?? 'AD')->substr(0, 2) }}
+    @if (request()->routeIs('admin.*') || request()->routeIs('student.*'))
+    <!-- User Menu Card -->
+    <div class="relative mt-auto pt-6" x-data="{ open: false }">
+        <div x-show="open" @click.away="open = false"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 translate-y-2"
+             class="absolute bottom-full left-0 right-0 mb-0.5 bg-white border border-gray-200 rounded-xl shadow-xl py-1.5 overflow-hidden origin-bottom">
+            <a href="{{ request()->routeIs('admin.*') ? route('admin.dashboard') : route('student.dashboard') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-speedometer2 text-blue-600"></i> Dashboard
+            </a>
+            @if (request()->routeIs('student.*'))
+            <a href="{{ route('student.profile') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-person text-blue-600"></i> Profile
+            </a>
+            @endif
+            <div class="my-1 border-t border-gray-100"></div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
         </div>
-        <div class="min-w-0">
-            <p class="text-sm font-bold text-gray-900 truncate">{{ auth()->user()?->name ?? 'Administrator' }}</p>
-            <span class="text-xs text-gray-500">Admin Panel</span>
-        </div>
-    </div>
-    @elseif (request()->routeIs('student.*'))
-    <!-- Student User Card -->
-    <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
-        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0 uppercase">
-            {{ str(auth()->user()?->name ?? 'BS')->substr(0, 2) }}
-        </div>
-        <div class="min-w-0">
-            <p class="text-sm font-bold text-gray-900 truncate">{{ auth()->user()?->name ?? 'Budi Santoso' }}</p>
-            <span class="text-xs text-gray-500">Student ID: {{ auth()->user()?->id ?? '2025041' }}</span>
-        </div>
+        <button @click="open = !open"
+                :class="open ? 'bg-gray-200 border-gray-300' : 'bg-gray-200/50 border-gray-200'"
+                class="w-full border rounded-xl p-3 flex items-center gap-3 hover:bg-gray-200 transition text-left cursor-pointer">
+            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0 uppercase shadow-sm">
+                {{ str(auth()->user()?->name ?? 'U')->substr(0, 2) }}
+            </div>
+            <div class="min-w-0 flex-1">
+                <p class="text-sm font-bold text-gray-800 truncate">{{ auth()->user()?->name ?? 'User' }}</p>
+                <span class="text-xs text-gray-500">{{ request()->routeIs('admin.*') ? 'Admin Panel' : 'Student ID: '.auth()->user()?->id }}</span>
+            </div>
+            <i class="bi bi-chevron-up text-xs text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+        </button>
     </div>
     @endif
 </aside>

@@ -13,7 +13,7 @@ function gradesPageAdmin(): User
 }
 
 it('admin dapat membuka halaman data nilai', function () {
-    $student = User::factory()->create(['role' => 'siswa', 'status' => 'active']);
+    $student = User::factory()->create(['name' => 'Ahmad Nilai', 'role' => 'siswa', 'status' => 'active']);
     $category = GradeCategory::create(['name' => 'Speaking']);
     Grade::create([
         'user_id' => $student->id,
@@ -25,7 +25,7 @@ it('admin dapat membuka halaman data nilai', function () {
     $this->actingAs(gradesPageAdmin())
         ->get(route('admin.grades'))
         ->assertOk()
-        ->assertSee($student->name)
+        ->assertSee('Ahmad Nilai')
         ->assertSee('88.5');
 });
 

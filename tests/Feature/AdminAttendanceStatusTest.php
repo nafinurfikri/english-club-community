@@ -17,6 +17,11 @@ function activeStudent(): User
     return User::factory()->create(['role' => 'siswa', 'status' => 'active']);
 }
 
+function namedStudent(string $name): User
+{
+    return User::factory()->create(['name' => $name, 'role' => 'siswa', 'status' => 'active']);
+}
+
 it('admin dapat mengubah status presensi siswa menjadi izin', function () {
     $admin = adminUser();
     $student = activeStudent();
@@ -83,8 +88,8 @@ it('hanya admin yang dapat mengubah status presensi', function () {
 
 it('halaman presensi admin menampilkan semua siswa aktif beserta statusnya', function () {
     $admin = adminUser();
-    $hadirStudent = activeStudent();
-    $izinStudent = activeStudent();
+    $hadirStudent = namedStudent('Budi Hadir');
+    $izinStudent = namedStudent('Siti Izin');
     $session = ClubSession::factory()->create(['opened_at' => now(), 'closed_at' => null]);
 
     Attendance::create([
@@ -111,9 +116,9 @@ it('halaman presensi admin menampilkan semua siswa aktif beserta statusnya', fun
 
 it('halaman presensi admin aman saat ada siswa tanpa presensi', function () {
     $admin = adminUser();
-    $student = activeStudent();
+    $student = namedStudent('Andi Aktif');
     $session = ClubSession::factory()->create(['opened_at' => now(), 'closed_at' => null]);
-    $student2 = activeStudent();
+    $student2 = namedStudent('Rina Aktif');
 
     Attendance::create([
         'club_session_id' => $session->id,
