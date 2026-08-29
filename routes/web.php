@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminContentController;
+use App\Http\Controllers\AdminSearchController;
 use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AttendanceController;
@@ -33,6 +34,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Admin Routes
 Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+
+    Route::get('/search', [AdminSearchController::class, 'index'])->name('admin.search');
 
     Route::get('/attendance', [AdminSessionController::class, 'index'])->name('admin.attendance');
     Route::post('/sessions', [AdminSessionController::class, 'store'])->name('admin.sessions.store');

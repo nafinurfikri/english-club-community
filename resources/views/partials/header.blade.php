@@ -61,14 +61,18 @@
     </button>
     @endif
 
-    {{-- Search bar --}}
-    <div class="relative flex-1 min-w-0 max-w-sm">
+    @if (auth()->user()?->isAdmin())
+    {{-- Search bar (admin global search) --}}
+    <form method="GET" action="{{ route('admin.search') }}" class="relative flex-1 min-w-0 max-w-sm">
         <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-        <input 
-            type="text" 
-            placeholder="Search records..." 
+        <input
+            type="search"
+            name="q"
+            value="{{ request('q') }}"
+            placeholder="Search records..."
             class="w-full pl-10 pr-4 py-2.5 rounded-full bg-gray-100 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
-    </div>
+    </form>
+    @endif
 
     <div class="flex items-center gap-2 shrink-0">
         <p class="text-sm font-medium text-gray-900 hidden sm:block max-w-[10rem] truncate">{{ auth()->user()?->name ?? 'Login' }}</p>
