@@ -41,7 +41,7 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Mapel Aktif</p>
-                <h3 class="text-2xl font-bold text-gray-900">6 Subjects</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $sessions->count() }} Sesi</h3>
                 <span class="text-xs text-gray-400 font-medium mt-1 block">In Progress</span>
             </div>
             <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg shrink-0">
@@ -52,7 +52,7 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Kehadiran Bulan Ini</p>
-                <h3 class="text-2xl font-bold text-gray-900">94.8%</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $attendancePercentage }}%</h3>
                 <span class="text-xs text-gray-400 font-medium mt-1 block">18 of 19 Sessions</span>
             </div>
             <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
@@ -63,8 +63,8 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Rata-rata Nilai</p>
-                <h3 class="text-2xl font-bold text-gray-900">3.85 GPA</h3>
-                <span class="text-xs text-gray-400 font-medium mt-1 block">Grade Average: A-</span>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $gradeAverage }}</h3>
+                <span class="text-xs text-gray-400 font-medium mt-1 block">Rata-rata nilai published</span>
             </div>
             <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
                 <i class="bi bi-award-fill"></i>

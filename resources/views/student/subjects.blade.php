@@ -35,14 +35,10 @@
     <div x-data="{
             levels: 'all',
             search: '',
-            subjects: [
-                { title: 'Advanced Grammar', level: 'Level 3 - Int', teacher: 'Dr. Elizabeth Stone', desc: 'Comprehensive review of complex grammatical structures and advanced usage.', students: 28, img: 'https://picsum.photos/seed/ec-grammar/640/300' },
-                { title: 'Conversational Practice', level: 'Level 2 - Basic', teacher: 'James Mitchell, M.A.', desc: 'Interactive discussion sessions aimed at enhancing everyday fluency.', students: 32, img: 'https://picsum.photos/seed/ec-conversation/640/300' },
-                { title: 'Listening Comprehension', level: 'Level 1 - Beg', teacher: 'Sarah Connor, B.E.d', desc: 'Designed to build auditory skills focused on daily conversations.', students: 20, img: 'https://picsum.photos/seed/ec-listening/640/300' },
-                { title: 'Public Speaking', level: 'Level 4 - Adv', teacher: 'Prof. Arthur Pendelton', desc: 'Developing rhetorical speaking capacities, body language, and stage presence.', students: 15, img: 'https://picsum.photos/seed/ec-speaking/640/300' },
-                { title: 'Business English', level: 'Professional Class', teacher: 'William Sterling, MBA', desc: 'Instruction focused on corporate presentations and email etiquette.', students: 25, img: 'https://picsum.photos/seed/ec-business/640/300' },
-                { title: 'TOEFL Preparation', level: 'Special Prep', teacher: 'Dr. Amanda Ross', desc: 'Rigorous diagnostic testing and skill builder tasks for the TOEFL exam.', students: 40, img: 'https://picsum.photos/seed/ec-toefl/640/300' }
-            ],
+            subjects: @js($subjects->values()),
+            get levelOptions() {
+                return [...new Set(this.subjects.map(s => s.level))];
+            },
             get filtered() {
                 return this.subjects.filter(s =>
                     (this.levels === 'all' || s.level === this.levels) &&
@@ -57,12 +53,9 @@
             <select x-model="levels"
                     class="w-full sm:w-64 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-blue-300">
                 <option value="all">All Levels &amp; Programs</option>
-                <option value="Level 1 - Beg">Level 1 - Beg</option>
-                <option value="Level 2 - Basic">Level 2 - Basic</option>
-                <option value="Level 3 - Int">Level 3 - Int</option>
-                <option value="Level 4 - Adv">Level 4 - Adv</option>
-                <option value="Professional Class">Professional Class</option>
-                <option value="Special Prep">Special Prep</option>
+                <template x-for="lvl in levelOptions" :key="lvl">
+                    <option :value="lvl" x-text="lvl"></option>
+                </template>
             </select>
 
             <span class="text-sm font-semibold text-blue-600" x-text="filtered.length + ' Available Modules'"></span>
@@ -71,7 +64,7 @@
         <!-- Subjects Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
 
-            <template x-for="s in filtered" :key="s.title">
+            <template x-for="s in filtered" :key="s.id">
                 <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
                     <!-- Card Image -->
                     <div class="relative h-36 bg-gray-200">
@@ -90,11 +83,7 @@
                         <p class="text-sm text-gray-500 mt-3 truncate" x-text="s.desc"></p>
 
                         <!-- Card Footer -->
-                        <div class="mt-auto pt-4 flex items-center justify-between gap-2">
-                            <span class="text-xs font-semibold text-blue-600 flex items-center gap-1.5">
-                                <i class="bi bi-people text-sm"></i>
-                                <span x-text="s.students + ' Active Students'"></span>
-                            </span>
+                        <div class="mt-auto pt-4 flex items-center justify-end gap-2">
                             <button class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg text-xs font-semibold transition-colors duration-200">
                                 Details
                             </button>

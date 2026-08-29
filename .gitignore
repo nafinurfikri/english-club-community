@@ -1,5 +1,10 @@
 *.log
 .DS_Store
+/.agents
+/AGENTS.md
+/boost.json
+/opencode.json
+/backend
 .env
 .env.backup
 .env.production

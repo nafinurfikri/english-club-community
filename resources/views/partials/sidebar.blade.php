@@ -151,6 +151,18 @@
             <span>Data Nilai</span>
         </a>
 
+        <a href="{{ route('admin.subjects') }}" 
+            @click="setActive('admin_subjects')"
+            @mouseenter="setHover('admin_subjects')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_subjects' || activeItem === 'admin_subjects' || ({{ request()->routeIs('admin.subjects') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
+            <i class="bi bi-book text-base"></i>
+            <span>Data Mata Pelajaran</span>
+        </a>
+
         <a href="{{ route('admin.announcements') }}" 
             @click="setActive('admin_announcements')"
             @mouseenter="setHover('admin_announcements')"

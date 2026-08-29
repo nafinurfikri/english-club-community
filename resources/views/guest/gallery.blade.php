@@ -38,6 +38,27 @@
         </button>
     </div>
 
+    @if (isset($items))
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        @forelse ($items as $item)
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <img src="{{ asset('storage/'.$item->image_path) }}" alt="{{ $item->caption ?? 'Dokumentasi kegiatan English Club' }}" class="w-full h-40 object-cover">
+            <div class="p-3">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{{ $item->category?->name ?? 'Kegiatan' }}</span>
+                    <span class="text-xs text-gray-400">{{ $item->published_at?->format('d M Y') }}</span>
+                </div>
+                <p class="text-sm font-semibold text-gray-900">{{ $item->caption ?? 'Dokumentasi kegiatan English Club' }}</p>
+            </div>
+        </div>
+        @empty
+        <div class="col-span-full rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center">
+            <i class="bi bi-images text-3xl text-gray-300"></i>
+            <p class="mt-2 text-sm text-gray-500">Belum ada foto yang dipublikasikan.</p>
+        </div>
+        @endforelse
+    </div>
+    @else
     {{-- Grid foto --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -133,5 +154,6 @@
             </div>
         </div>
     </div>
+    @endif
 
 @endsection

@@ -24,6 +24,14 @@
 
 @section('content')
 
+    @php($activeSession = ($sessions ?? collect())->first(fn ($session) => $session->isOpen()))
+    @if ($activeSession)
+        <form id="attendance-form" method="POST" action="{{ route('student.attendance.store', $activeSession) }}" class="hidden">
+            @csrf
+            <input id="attendance-code" type="hidden" name="code">
+        </form>
+    @endif
+
     <div class="relative min-h-[65vh] flex flex-col items-center" x-data="attendance()" @paste="onPaste($event)">
 
         <!-- Background Gradient Blobs -->
@@ -36,6 +44,13 @@
             <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">Daily Attendance</h2>
             <p class="text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">Enter the 6-digit code provided by your instructor to confirm your presence for today's session.</p>
         </div>
+
+        @if (session('status'))
+            <div class="relative z-10 mb-4 w-full max-w-md rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('status') }}</div>
+        @endif
+        @if ($errors->any())
+            <div class="relative z-10 mb-4 w-full max-w-md rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{{ $errors->first() }}</div>
+        @endif
 
         <!-- OTP Card -->
         <div class="relative z-10 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8 mb-12">
@@ -80,6 +95,22 @@
                 <span class="text-2xl font-extrabold text-blue-600" :class="seconds <= 30 && '!text-rose-600'" x-text="timerText"></span>
             </div>
         </div>
+
+        @if ($activeSession && $activeSession->materials->isNotEmpty())
+            <div class="relative z-10 mb-8 w-full max-w-md rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <h3 class="font-bold text-gray-900">Materi Sesi</h3>
+                <div class="mt-3 space-y-2">
+                    @foreach ($activeSession->materials as $material)
+                        @if ($material->is_published && $activeSession->attendances->contains('user_id', auth()->id()))
+                            <a href="{{ route('student.materials.show', $material) }}" class="flex items-center justify-between gap-3 rounded-xl bg-gray-50 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50">
+                                <span class="truncate">{{ $material->title }}</span>
+                                <i class="bi bi-box-arrow-up-right shrink-0"></i>
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 
     <script>
@@ -143,9 +174,14 @@
                         this.error = 'Masukkan lengkap 6 digit kode OTP.';
                         return;
                     }
+                    @if (! $activeSession)
+                        this.error = 'Belum ada sesi presensi yang sedang dibuka.';
+                        return;
+                    @endif
                     this.error = '';
-                    this.verified = true;
-                    clearInterval(this.timer);
+                    const form = document.getElementById('attendance-form');
+                    document.getElementById('attendance-code').value = this.code;
+                    form.submit();
                 }
             }
         }

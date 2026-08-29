@@ -26,30 +26,35 @@
                     <button @click="showModal = false" class="text-gray-400 hover:text-gray-600"><i class="bi bi-x-lg"></i></button>
                 </div>
                 
-                <form @submit.prevent="showModal = false" class="space-y-3">
+                <form method="POST" action="{{ route('admin.grades.store') }}" class="space-y-3">
+                    @csrf
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Pilih Siswa</label>
-                        <select class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
-                            <option>Kelvin Muaezin Lubis (Speech)</option>
-                            <option>Riekosta Febrianto (Debate)</option>
-                            <option>Nafi Nur Fikri (Story Telling)</option>
-                            <option>Anindya Eka Pratiwi (News Anchor)</option>
+                        <select name="user_id" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                            @foreach ($students as $student)
+                                <option value="{{ $student->id }}">{{ $student->name }} ({{ $student->email }})</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Nilai Speaking / Speech</label>
-                            <input type="number" placeholder="0-100" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Kategori Nilai</label>
+                            <select name="grade_category_id" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Nilai Expression</label>
-                            <input type="number" placeholder="0-100" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Score</label>
+                            <input name="score" type="number" min="0" max="100" step="0.01" placeholder="0-100" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Catatan Evaluasi Pembina</label>
-                        <textarea rows="3" placeholder="Catatan perkembangan siswa..." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500"></textarea>
+                        <textarea name="notes" rows="3" placeholder="Catatan perkembangan siswa..." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500"></textarea>
                     </div>
+                    <label class="flex items-center gap-2 text-xs text-gray-600"><input name="published" type="checkbox" value="1"> Publikasikan ke student</label>
 
                     <div class="pt-3 flex justify-end gap-2">
                         <button type="button" @click="showModal = false" class="px-4 py-2 bg-gray-100 text-gray-700 text-xs font-semibold rounded-xl hover:bg-gray-200">Batal</button>
@@ -62,14 +67,7 @@
 
     <!-- Data Table Nilai -->
     <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"
-         x-data="{
-             grades: [
-                 { nis: '202410012', name: 'Kelvin Muaezin Lubis', divisi: 'Speech', speaking: 90, expression: 92, grade: 'A', note: 'Penguasaan materi sangat baik dan intonasi jelas' },
-                 { nis: '202410015', name: 'Riekosta Febrianto', divisi: 'Debate', speaking: 85, expression: 88, grade: 'A-', note: 'Argumen logis, penyampaian sangat persuasif' },
-                 { nis: '202410018', name: 'Nafi Nur Fikri', divisi: 'Story Telling', speaking: 95, expression: 96, grade: 'A+', note: 'Sangat ekspresif dan menguasai panggung' },
-                 { nis: '202410022', name: 'Anindya Eka Pratiwi', divisi: 'News Anchor', speaking: 88, expression: 90, grade: 'A', note: 'Artikulasi jernih dan gaya pembawaan profesional' }
-             ]
-         }">
+         x-data="{ grades: @js($grades->values()) }">
         
         <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <h2 class="text-base font-bold text-gray-900">Rekapitulasi Nilai Evaluasi Sesi</h2>
@@ -93,16 +91,16 @@
                     <template x-for="(g, index) in grades" :key="index">
                         <tr class="hover:bg-gray-50/80">
                             <td class="px-4 py-3">
-                                <p class="font-semibold text-gray-900 text-sm" x-text="g.name"></p>
-                                <span class="font-mono text-xs text-gray-400" x-text="g.nis"></span>
+                                <p class="font-semibold text-gray-900 text-sm" x-text="g.student?.name"></p>
+                                <span class="font-mono text-xs text-gray-400" x-text="g.student?.email"></span>
                             </td>
-                            <td class="px-4 py-3 text-xs" x-text="g.divisi"></td>
-                            <td class="px-4 py-3 font-semibold text-blue-600" x-text="g.speaking"></td>
-                            <td class="px-4 py-3 font-semibold text-emerald-600" x-text="g.expression"></td>
+                            <td class="px-4 py-3 text-xs" x-text="g.category?.name"></td>
+                            <td class="px-4 py-3 font-semibold text-blue-600" x-text="g.score"></td>
+                            <td class="px-4 py-3 font-semibold text-emerald-600" x-text="g.published_at ? 'Published' : 'Draft'"></td>
                             <td class="px-4 py-3">
-                                <span class="px-2 py-0.5 text-xs font-bold bg-blue-100 text-blue-700 rounded-md" x-text="g.grade"></span>
+                                <span class="px-2 py-0.5 text-xs font-bold bg-blue-100 text-blue-700 rounded-md" x-text="g.score >= 90 ? 'A' : (g.score >= 80 ? 'B' : 'C')"></span>
                             </td>
-                            <td class="px-4 py-3 text-xs text-gray-500 max-w-xs truncate" x-text="g.note"></td>
+                            <td class="px-4 py-3 text-xs text-gray-500 max-w-xs truncate" x-text="g.notes"></td>
                             <td class="px-4 py-3 text-right">
                                 <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold"><i class="bi bi-pencil"></i> Edit</button>
                             </td>

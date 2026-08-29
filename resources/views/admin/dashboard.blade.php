@@ -26,9 +26,9 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Siswa Active</p>
-                <h3 class="text-2xl font-bold text-gray-900">48 Siswa</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $totalStudents }} Siswa</h3>
                 <span class="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
-                    <i class="bi bi-arrow-up-short"></i> +4 anggota baru bulan ini
+                    <i class="bi bi-people"></i> Data anggota aktif
                 </span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
@@ -39,9 +39,9 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Kehadiran Hari Ini</p>
-                <h3 class="text-2xl font-bold text-gray-900">42 / 48</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $totalSessions }} Sesi</h3>
                 <span class="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
-                    <i class="bi bi-check-circle"></i> 87.5% tingkat kehadiran
+                    <i class="bi bi-calendar-check"></i> Sesi tercatat
                 </span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
@@ -52,9 +52,9 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pengumuman Published</p>
-                <h3 class="text-2xl font-bold text-gray-900">12 Post</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $totalAnnouncements }} Post</h3>
                 <span class="text-xs text-gray-400 font-medium flex items-center gap-1 mt-1">
-                    Terakhir 2 hari lalu
+                    Pengumuman published
                 </span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
@@ -65,9 +65,9 @@
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Foto Galeri</p>
-                <h3 class="text-2xl font-bold text-gray-900">36 Foto</h3>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $totalGalleryItems }} Foto</h3>
                 <span class="text-xs text-blue-600 font-medium flex items-center gap-1 mt-1">
-                    4 Album Divisi
+                    Foto published
                 </span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
@@ -138,17 +138,7 @@
         <!-- Right Column: Sesi OTP Aktif / Status Sesi -->
         <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between"
              x-data="{
-                 activeCode: '849201',
-                 timeLeft: 180,
-                 isGenerating: false,
-                 generateNew() {
-                     this.isGenerating = true;
-                     setTimeout(() => {
-                         this.activeCode = Math.floor(100000 + Math.random() * 900000).toString();
-                         this.timeLeft = 300;
-                         this.isGenerating = false;
-                     }, 500);
-                 }
+                 activeCode: 'Kelola di Presensi',
              }">
             <div>
                 <div class="flex justify-between items-center mb-3">
@@ -160,17 +150,16 @@
 
                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 text-center my-4">
                     <span class="text-xs text-blue-600 font-semibold block mb-1">Kode OTP Sesi Hari Ini</span>
-                    <div class="text-3xl font-mono font-bold tracking-widest text-gray-900 my-2" x-text="activeCode"></div>
-                    <p class="text-xs text-gray-500">Gunakan kode ini untuk absensi siswa di kelas</p>
+                    <div class="text-lg font-bold text-gray-900 my-2" x-text="activeCode"></div>
+                    <p class="text-xs text-gray-500">Kode OTP dikelola pada halaman presensi</p>
                 </div>
             </div>
 
-            <button @click="generateNew()" 
-                    :disabled="isGenerating"
+            <a href="{{ route('admin.attendance') }}"
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2">
-                <i class="bi bi-arrow-repeat text-base" :class="isGenerating ? 'animate-spin' : ''"></i>
-                <span x-text="isGenerating ? 'Generating...' : 'Generate OTP Baru'"></span>
-            </button>
+                <i class="bi bi-qr-code-scan"></i>
+                Kelola Kode OTP
+            </a>
         </div>
 
     </div>

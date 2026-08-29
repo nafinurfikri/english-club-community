@@ -60,14 +60,7 @@
 
     <!-- Data Table Siswa -->
     <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"
-         x-data="{
-             students: [
-                 { nis: '202410012', name: 'Kelvin Muaezin Lubis', divisi: 'Speech', email: 'kelvin@dwiguna.sch.id', status: 'Aktif' },
-                 { nis: '202410015', name: 'Riekosta Febrianto', divisi: 'Debate', email: 'riekosta@dwiguna.sch.id', status: 'Aktif' },
-                 { nis: '202410018', name: 'Nafi Nur Fikri', divisi: 'Story Telling', email: 'nafi@dwiguna.sch.id', status: 'Aktif' },
-                 { nis: '202410022', name: 'Anindya Eka Pratiwi', divisi: 'News Anchor', email: 'anindya@dwiguna.sch.id', status: 'Aktif' }
-             ]
-         }">
+         x-data="{ students: @js($students->values()) }">
         
         <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-2">
@@ -99,12 +92,27 @@
                                 <span class="px-2.5 py-0.5 text-xs bg-blue-50 text-blue-600 rounded-md font-medium" x-text="s.divisi"></span>
                             </td>
                             <td class="px-4 py-3">
-                                <span :class="s.status === 'Aktif' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'" 
+                                  <span :class="s.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'"
                                       class="px-2.5 py-1 text-xs font-semibold rounded-full" x-text="s.status"></span>
                             </td>
-                            <td class="px-4 py-3 text-right space-x-2">
-                                <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold"><i class="bi bi-pencil-square"></i> Edit</button>
-                                <button @click="students.splice(index, 1)" class="text-rose-600 hover:text-rose-800 text-xs font-semibold"><i class="bi bi-trash"></i> Hapus</button>
+                            <td class="px-4 py-3 text-right">
+                                <div class="flex flex-wrap justify-end gap-2">
+                                    <form method="POST" :action="'{{ url('/admin/students') }}/' + s.id + '/status'" class="flex items-center gap-1">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="status" class="rounded border border-gray-200 px-1 py-1 text-[11px]">
+                                            <option value="active" :selected="s.status === 'active'">Aktif</option>
+                                            <option value="pending" :selected="s.status === 'pending'">Pending</option>
+                                            <option value="rejected" :selected="s.status === 'rejected'">Ditolak</option>
+                                        </select>
+                                        <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold"><i class="bi bi-check2"></i></button>
+                                    </form>
+                                    <form method="POST" :action="'{{ url('/admin/students') }}/' + s.id" onsubmit="return confirm('Hapus siswa ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-rose-600 hover:text-rose-800 text-xs font-semibold"><i class="bi bi-trash"></i> Hapus</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     </template>

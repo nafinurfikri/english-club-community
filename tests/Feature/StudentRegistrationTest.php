@@ -18,7 +18,7 @@ it('registers a student account', function () {
         'email' => 'nafi@example.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
-    ])->assertRedirect(route('student.register'));
+    ])->assertRedirect(route('login'));
 
     expect(User::where('email', 'nafi@example.com')->exists())->toBeTrue();
 });
