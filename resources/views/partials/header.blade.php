@@ -37,13 +37,17 @@
             class="w-full pl-10 pr-4 py-2.5 rounded-full bg-gray-100 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
     </div>
 
-    <a href="{{ route('login') }}">
-        <div class="flex items-center gap-2">
-            <p class="text-sm font-medium text-gray-900 hidden sm:block">Login</p>
-            <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                <i class="bi bi-person-fill"></i>
-            </div>
+    <div class="flex items-center gap-2 shrink-0">
+        <p class="text-sm font-medium text-gray-900 hidden sm:block max-w-[10rem] truncate">{{ auth()->user()?->name ?? 'Login' }}</p>
+        <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold uppercase">
+            {{ str(auth()->user()?->name ?? '?')->substr(0, 2) }}
         </div>
-    </a>
+        @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="ml-1 text-gray-500 hover:text-gray-700 text-xs font-semibold"><i class="bi bi-box-arrow-right"></i></button>
+        </form>
+        @endauth
+    </div>
 </header>
 @endif

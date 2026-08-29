@@ -21,7 +21,7 @@
                 <h3 class="text-lg font-bold text-gray-900">Miss Windy</h3>
                 <p class="text-sm text-blue-600 mb-2">Guru Bahasa Inggris</p>
                 <p class="text-sm text-gray-600 leading-relaxed">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nulla aliquam quibusdam dolor, labore excepturi hic distinctio temporibus doloribus quam corporis.
+                    Berpengalaman membimbing siswa mengasah kemampuan speaking, pronunciation, dan public speaking. Mendorong setiap anggota untuk berani tampil dan percaya diri berkomunikasi dalam bahasa Inggris, baik di kelas maupun di ajang perlombaan.
                 </p>
             </div>
         </div>

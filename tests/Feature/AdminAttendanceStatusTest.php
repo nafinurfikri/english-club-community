@@ -108,3 +108,71 @@ it('halaman presensi admin menampilkan semua siswa aktif beserta statusnya', fun
         ->assertSee('Hadir')
         ->assertSee('Izin');
 });
+
+it('halaman presensi admin aman saat ada siswa tanpa presensi', function () {
+    $admin = adminUser();
+    $student = activeStudent();
+    $session = ClubSession::factory()->create(['opened_at' => now(), 'closed_at' => null]);
+    $student2 = activeStudent();
+
+    Attendance::create([
+        'club_session_id' => $session->id,
+        'user_id' => $student->id,
+        'attended_at' => now(),
+        'status' => Attendance::STATUS_HADIR,
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.attendance'))
+        ->assertOk()
+        ->assertSee($student->name)
+        ->assertSee($student2->name);
+});
+
+it('admin dapat membuat sesi baru yang langsung aktif dengan kode OTP', function () {
+    $admin = adminUser();
+
+    $this->actingAs($admin)
+        ->post(route('admin.sessions.store'), [
+            'title' => 'Speaking Practice',
+            'description' => 'Latihan berbicara',
+            'scheduled_at' => now()->addDay(),
+        ])
+        ->assertRedirect()
+        ->assertSessionHas('attendance_code');
+
+    $session = ClubSession::latest('id')->first();
+    expect($session->title)->toBe('Speaking Practice')
+        ->and($session->isOpen())->toBeTrue()
+        ->and($session->attendance_code_hash)->not->toBeNull();
+});
+
+it('admin dapat membuka dan menutup sesi presensi', function () {
+    $admin = adminUser();
+    $session = ClubSession::factory()->create(['opened_at' => null, 'closed_at' => null]);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.sessions.open', $session))
+        ->assertRedirect();
+
+    expect($session->fresh()->isOpen())->toBeTrue();
+
+    $this->actingAs($admin)
+        ->patch(route('admin.sessions.close', $session))
+        ->assertRedirect();
+
+    expect($session->fresh()->isOpen())->toBeFalse();
+});
+
+it('admin dapat me-generate ulang kode OTP untuk sesi terbuka', function () {
+    $admin = adminUser();
+    $session = ClubSession::factory()->create(['opened_at' => now(), 'closed_at' => null]);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.sessions.code', $session))
+        ->assertRedirect()
+        ->assertSessionHas('attendance_code')
+        ->assertSessionHas('status');
+
+    $this->assertNotSame($session->attendance_code_hash, $session->fresh()->attendance_code_hash);
+});

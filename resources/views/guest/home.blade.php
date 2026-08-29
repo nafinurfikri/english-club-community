@@ -31,7 +31,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-3">{{ $about['title'] ?? 'Apa itu English Club?' }}</h2>
-                <p class="text-gray-600 leading-relaxed">{{ $about['body'] ?? 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque, repellat eligendi eum voluptatibus accusantium suscipit molestias veritatis iusto quaerat aliquam dolorum adipisci velit, inventore reprehenderit laudantium minima harum ipsam quam ea explicabo possimus facere. Amet dolor nulla obcaecati magnam voluptatem?' }}</p>
+                <p class="text-gray-600 leading-relaxed">{{ $about['body'] ?? 'English Club Community adalah wadah bagi siswa untuk mengasah kemampuan bahasa Inggris melalui kegiatan yang menyenangkan dan kolaboratif, mulai dari story telling, debat, pidato, hingga news anchor.' }}</p>
             </div>
             <div>
                 <img src="{{ asset('images/tentang-ec.jpg') }}" alt="Kegiatan English Club" class="w-full h-64 object-cover rounded-xl">

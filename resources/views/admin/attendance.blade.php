@@ -5,6 +5,60 @@
 @section('content')
 
     @php($activeSession = $activeSession ?? null)
+
+    <!-- Manajemen Sesi & Generate OTP -->
+    <div class="mb-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Buat Sesi Baru -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h2 class="text-base font-bold text-gray-900 mb-1">Buat Sesi Baru</h2>
+            <p class="text-xs text-gray-500 mb-4">Buat sesi pertemuan lalu buka presensi untuk mendapatkan kode OTP baru.</p>
+            <form method="POST" action="{{ route('admin.sessions.store') }}" class="grid grid-cols-1 gap-3">
+                @csrf
+                <input name="title" required placeholder="Judul sesi, mis. Speaking Practice" class="rounded-xl border border-gray-300 px-3 py-2 text-sm">
+                <input name="scheduled_at" type="datetime-local" class="rounded-xl border border-gray-300 px-3 py-2 text-sm">
+                <textarea name="description" rows="2" placeholder="Deskripsi (opsional)" class="rounded-xl border border-gray-300 px-3 py-2 text-sm"></textarea>
+                <button class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                    <i class="bi bi-plus-circle-fill"></i> Buat Sesi & OTP
+                </button>
+            </form>
+        </div>
+
+        <!-- Daftar Sesi -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h2 class="text-base font-bold text-gray-900 mb-4">Daftar Sesi Presensi</h2>
+            @forelse ($sessions as $session)
+                <div class="flex items-center justify-between gap-3 border border-gray-100 rounded-xl px-4 py-3 mb-2">
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-gray-900 truncate">{{ $session->title }}</p>
+                        <span class="text-xs text-gray-500">{{ $session->scheduled_at?->format('d M Y H:i') ?? 'Belum dijadwalkan' }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        @if ($session->isOpen())
+                            <form method="POST" action="{{ route('admin.sessions.code', $session) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button class="text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg px-2.5 py-1.5">Generate OTP</button>
+                            </form>
+                            <form method="POST" action="{{ route('admin.sessions.close', $session) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button class="text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg px-2.5 py-1.5">Tutup</button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('admin.sessions.open', $session) }}">
+                                @csrf
+                                @method('PATCH')
+                                <button class="text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg px-2.5 py-1.5">Buka Presensi</button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <p class="text-xs text-gray-400 text-center py-6">Belum ada sesi. Buat sesi baru untuk mulai presensi.</p>
+            @endforelse
+        </div>
+    </div>
+
     @if ($activeSession)
         <form id="regenerate-code-form" method="POST" action="{{ route('admin.sessions.code', $activeSession) }}" class="hidden">
             @csrf

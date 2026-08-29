@@ -9,7 +9,7 @@
         <div>
             <div class="flex items-center gap-2 mb-2">
                 <span class="bg-blue-500/50 border border-blue-400/50 text-xs px-2.5 py-0.5 rounded-full font-semibold">Admin Panel</span>
-                <span class="text-xs text-blue-200">Kamis, 28 Agustus 2026</span>
+                <span class="text-xs text-blue-200">{{ now()->translatedFormat('l, d F Y') }}</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-bold">Administrator Dashboard</h1>
             <p class="text-blue-100 text-sm mt-1">Kelola data siswa, absensi OTP, pengumuman, nilai, dan galeri kegiatan.</p>

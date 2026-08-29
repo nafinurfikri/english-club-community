@@ -43,10 +43,17 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::patch('/attendance/status', [AdminSessionController::class, 'updateStatus'])->name('admin.attendance.status');
 
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students');
+    Route::post('/students', [AdminStudentController::class, 'store'])->name('admin.students.store');
     Route::patch('/students/{user}/status', [AdminStudentController::class, 'updateStatus'])->name('admin.students.status');
     Route::delete('/students/{user}', [AdminStudentController::class, 'destroy'])->name('admin.students.destroy');
 
     Route::get('/grades', [GradeController::class, 'adminIndex'])->name('admin.grades');
+    Route::post('/grades', [GradeController::class, 'store'])->name('admin.grades.store');
+    Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('admin.grades.update');
+    Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
+    Route::post('/grade-categories', [GradeController::class, 'storeCategory'])->name('admin.grade-categories.store');
+    Route::put('/grade-categories/{gradeCategory}', [GradeController::class, 'updateCategory'])->name('admin.grade-categories.update');
+    Route::delete('/grade-categories/{gradeCategory}', [GradeController::class, 'destroyCategory'])->name('admin.grade-categories.destroy');
 
     Route::get('/subjects', [SubjectController::class, 'adminIndex'])->name('admin.subjects');
     Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');

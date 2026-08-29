@@ -278,19 +278,23 @@
     @if (request()->routeIs('admin.*'))
     <!-- Admin User Card -->
     <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
-        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">AD</div>
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0 uppercase">
+            {{ str(auth()->user()?->name ?? 'AD')->substr(0, 2) }}
+        </div>
         <div class="min-w-0">
-            <p class="text-sm font-bold text-gray-900 truncate">Administrator</p>
+            <p class="text-sm font-bold text-gray-900 truncate">{{ auth()->user()?->name ?? 'Administrator' }}</p>
             <span class="text-xs text-gray-500">Admin Panel</span>
         </div>
     </div>
     @elseif (request()->routeIs('student.*'))
     <!-- Student User Card -->
     <div class="mt-auto pt-6 bg-white border border-gray-200 rounded-xl p-3 flex items-center gap-3 shadow-sm">
-        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">BS</div>
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0 uppercase">
+            {{ str(auth()->user()?->name ?? 'BS')->substr(0, 2) }}
+        </div>
         <div class="min-w-0">
-            <p class="text-sm font-bold text-gray-900 truncate">Budi Santoso</p>
-            <span class="text-xs text-gray-500">Student ID: 2025041</span>
+            <p class="text-sm font-bold text-gray-900 truncate">{{ auth()->user()?->name ?? 'Budi Santoso' }}</p>
+            <span class="text-xs text-gray-500">Student ID: {{ auth()->user()?->id ?? '2025041' }}</span>
         </div>
     </div>
     @endif

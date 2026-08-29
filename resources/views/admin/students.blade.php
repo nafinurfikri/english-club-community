@@ -15,6 +15,10 @@
             <i class="bi bi-person-plus-fill"></i> Tambah Siswa Baru
         </button>
 
+        @if (session('status'))
+            <div class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">{{ session('status') }}</div>
+        @endif
+
         <!-- Modal Tambah Siswa Baru (Alpine.js) -->
         <div x-show="showModal" 
              x-transition.opacity
@@ -26,27 +30,19 @@
                     <button @click="showModal = false" class="text-gray-400 hover:text-gray-600"><i class="bi bi-x-lg"></i></button>
                 </div>
                 
-                <form @submit.prevent="showModal = false" class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">NIS (Nomor Induk Siswa)</label>
-                        <input type="text" placeholder="202410099" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
+                <form method="POST" action="{{ route('admin.students.store') }}" class="space-y-3">
+                    @csrf
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-                        <input type="text" placeholder="Masukkan nama siswa" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Pilihan Divisi</label>
-                        <select class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
-                            <option>Speech</option>
-                            <option>Story Telling</option>
-                            <option>Debate</option>
-                            <option>News Anchor</option>
-                        </select>
+                        <input name="name" type="text" required placeholder="Masukkan nama siswa" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Email Siswa</label>
-                        <input type="email" placeholder="siswa@dwiguna.sch.id" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                        <input name="email" type="email" required placeholder="siswa@dwiguna.sch.id" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Password (opsional)</label>
+                        <input name="password" type="password" minlength="8" placeholder="Kosongkan untuk default: password" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
                     </div>
 
                     <div class="pt-3 flex justify-end gap-2">
@@ -74,10 +70,8 @@
             <table class="w-full text-left text-sm text-gray-600">
                 <thead class="bg-gray-50 text-xs text-gray-700 uppercase font-semibold border-b border-gray-100">
                     <tr>
-                        <th class="px-4 py-3">NIS</th>
                         <th class="px-4 py-3">Nama Siswa</th>
                         <th class="px-4 py-3">Email</th>
-                        <th class="px-4 py-3">Divisi</th>
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3 text-right">Aksi</th>
                     </tr>
@@ -85,12 +79,8 @@
                 <tbody class="divide-y divide-gray-100">
                     <template x-for="(s, index) in students" :key="index">
                         <tr class="hover:bg-gray-50/80">
-                            <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="s.nis"></td>
                             <td class="px-4 py-3 font-semibold text-gray-900" x-text="s.name"></td>
                             <td class="px-4 py-3 text-xs text-gray-500" x-text="s.email"></td>
-                            <td class="px-4 py-3">
-                                <span class="px-2.5 py-0.5 text-xs bg-blue-50 text-blue-600 rounded-md font-medium" x-text="s.divisi"></span>
-                            </td>
                             <td class="px-4 py-3">
                                   <span :class="s.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'"
                                       class="px-2.5 py-1 text-xs font-semibold rounded-full" x-text="s.status"></span>

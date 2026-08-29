@@ -5,7 +5,7 @@
 @section('header')
     <header class="bg-white shadow-sm border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
         <div class="min-w-0">
-            <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Welcome Back, Budi!</h1>
+            <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Welcome Back, {{ str(auth()->user()?->name ?? 'Student')->explode(' ')->first() }}!</h1>
             <p class="text-xs sm:text-sm text-gray-500">Ready to level up your English skills today?</p>
         </div>
 

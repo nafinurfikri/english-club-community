@@ -6,10 +6,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('renders the student dashboard page', function () {
-    $this->actingAs(User::factory()->create(['status' => 'active']))
+    $student = User::factory()->create(['status' => 'active']);
+    $firstName = str($student->name)->explode(' ')->first();
+
+    $this->actingAs($student)
         ->get(route('student.dashboard'))
         ->assertOk()
         ->assertSee('English Proficiency Excellence Map')
-        ->assertSee('Welcome Back, Budi!')
-        ->assertSee('Budi Santoso');
+        ->assertSee("Welcome Back, {$firstName}!")
+        ->assertSee($student->name);
 });

@@ -50,7 +50,7 @@ class AdminSessionController extends Controller
                 'status' => isset($activeAttendances[$student->id])
                     ? $labelMap[$activeAttendances[$student->id]->status] ?? null
                     : null,
-                'time' => $activeAttendances[$student->id]?->attended_at?->format('H:i').' WIB',
+                'time' => $activeAttendances->get($student->id)?->attended_at?->format('H:i').' WIB',
             ])->values(),
         ]);
     }
@@ -84,9 +84,13 @@ class AdminSessionController extends Controller
             'scheduled_at' => ['nullable', 'date'],
         ]);
         $code = (string) random_int(100000, 999999);
-        $session = ClubSession::create([...$data, 'attendance_code_hash' => Hash::make($code)]);
+        $session = ClubSession::create([
+            ...$data,
+            'attendance_code_hash' => Hash::make($code),
+            'opened_at' => now(),
+        ]);
 
-        return back()->with('status', "Sesi berhasil dibuat. Kode presensi: {$code}")
+        return back()->with('status', "Sesi berhasil dibuat dan presensi dibuka. Kode presensi: {$code}")
             ->with('attendance_code', $code)
             ->with('created_session_id', $session->id);
     }
