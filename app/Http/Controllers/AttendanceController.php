@@ -10,8 +10,13 @@ class AttendanceController extends Controller
 {
     public function index()
     {
+        $sessions = ClubSession::with(['attendances', 'materials', 'subject'])
+            ->latest('scheduled_at')
+            ->get();
+
         return view('student.attendance', [
-            'sessions' => ClubSession::with('attendances')->latest('scheduled_at')->get(),
+            'sessions' => $sessions,
+            'openSessions' => $sessions->filter(fn (ClubSession $session) => $session->isOpen()),
         ]);
     }
 

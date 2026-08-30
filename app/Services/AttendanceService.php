@@ -16,8 +16,16 @@ class AttendanceService
         return DB::transaction(function () use ($user, $clubSession, $code) {
             $clubSession = ClubSession::query()->lockForUpdate()->findOrFail($clubSession->id);
 
-            if (! $clubSession->isOpen() || ! $clubSession->attendance_code_hash || ! Hash::check($code, $clubSession->attendance_code_hash)) {
+            if (! $clubSession->isOpen() || ! $clubSession->attendance_code_hash) {
                 throw ValidationException::withMessages(['code' => 'Kode presensi tidak valid atau sesi sudah ditutup.']);
+            }
+
+            if ($clubSession->isAttendanceCodeExpired()) {
+                throw ValidationException::withMessages(['code' => 'Kode presensi sudah kedaluwarsa. Minta kode baru kepada instruktur.']);
+            }
+
+            if (! Hash::check($code, $clubSession->attendance_code_hash)) {
+                throw ValidationException::withMessages(['code' => 'Kode presensi tidak valid.']);
             }
 
             if (Attendance::where('club_session_id', $clubSession->id)->where('user_id', $user->id)->exists()) {

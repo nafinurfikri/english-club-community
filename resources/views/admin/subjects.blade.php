@@ -4,8 +4,23 @@
 
 @section('content')
 
-    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
-         x-data="{ showCreate: false, showEdit: false, editing: {} }">
+    <div class="space-y-6"
+         x-data="{
+             showCreate: false,
+             showEdit: false,
+             editing: {},
+             subjects: @js($subjects->values()),
+             showMaterials: false,
+             activeSubject: null,
+             materialType: 'file',
+             openMaterials(s) {
+                 this.activeSubject = s;
+                 this.materialType = 'file';
+                 this.showMaterials = true;
+             }
+         }">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h1 class="text-2xl font-bold text-gray-900">Manajemen Mata Pelajaran</h1>
             <p class="text-xs sm:text-sm text-gray-500">Kelola kurikulum, level, dan pengajar program English Club.</p>
@@ -121,8 +136,7 @@
     </div>
 
     <!-- Data Table Mata Pelajaran -->
-    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"
-         x-data="{ subjects: @js($subjects->values()) }">
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
 
         <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-2">
@@ -159,6 +173,8 @@
                             </td>
                             <td class="px-4 py-3 text-right">
                                 <div class="flex justify-end gap-2">
+                                    <button @click="openMaterials(s)"
+                                            class="text-emerald-600 hover:text-emerald-800 text-xs font-semibold"><i class="bi bi-folder2-open"></i> Materi</button>
                                     <button @click="editing = s; showEdit = true"
                                             class="text-blue-600 hover:text-blue-800 text-xs font-semibold"><i class="bi bi-pencil"></i> Edit</button>
                                     <form method="POST" :action="'{{ url('/admin/subjects') }}/' + s.id" onsubmit="return confirm('Hapus mata pelajaran ini?')">
@@ -175,4 +191,86 @@
         </div>
     </div>
 
+    <!-- Modal Kelola Materi Mata Pelajaran -->
+    <div x-show="showMaterials"
+         x-transition.opacity
+         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+         style="display: none;">
+        <div @click.away="showMaterials = false" class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                <h3 class="text-lg font-bold text-gray-900" x-text="'Materi: ' + (activeSubject ? activeSubject.name : '')"></h3>
+                <button @click="showMaterials = false" class="text-gray-400 hover:text-gray-600"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <form method="POST" :action="activeSubject ? '{{ url('/admin/subjects') }}/' + activeSubject.id + '/materials' : '#'"
+                  enctype="multipart/form-data" class="space-y-3 rounded-xl border border-gray-200 p-4">
+                @csrf
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Judul Materi</label>
+                    <input name="title" type="text" required placeholder="Judul materi" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Tipe</label>
+                        <select name="type" required x-model="materialType" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500">
+                            <option value="file">File</option>
+                            <option value="url">URL</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end pb-1">
+                        <label class="flex items-center gap-2 text-xs text-gray-600"><input name="published" type="checkbox" value="1" checked> Publikasikan</label>
+                    </div>
+                </div>
+                <div x-show="materialType === 'file'">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">File</label>
+                    <input name="file" type="file" class="w-full px-3 py-2 border rounded-xl text-sm">
+                </div>
+                <div x-show="materialType === 'url'">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">URL</label>
+                    <input name="url" type="url" placeholder="https://..." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <button type="submit" class="w-full rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+                    <i class="bi bi-plus-circle-fill"></i> Tambah Materi
+                </button>
+            </form>
+
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-bold text-gray-900">Daftar Materi</span>
+                    <span class="text-xs text-gray-400" x-text="(activeSubject ? activeSubject.materials.length : 0) + ' materi'"></span>
+                </div>
+                <template x-if="activeSubject && activeSubject.materials.length">
+                    <ul class="space-y-2">
+                        <template x-for="m in activeSubject.materials" :key="m.id">
+                            <li class="flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-gray-50 px-3 py-2">
+                                <div class="min-w-0">
+                                    <p class="truncate text-sm font-semibold text-gray-900" x-text="m.title"></p>
+                                    <span class="text-xs" :class="m.is_published ? 'text-emerald-600' : 'text-gray-400'" x-text="m.is_published ? 'Published' : 'Draft'"></span>
+                                </div>
+                                <div class="flex shrink-0 items-center gap-2">
+                                    <form method="POST" :action="'{{ url('/admin/materials') }}/' + m.id" x-show="!m.is_published">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="title" :value="m.title">
+                                        <input type="hidden" name="published" value="1">
+                                        <button class="text-emerald-600 hover:text-emerald-800 text-xs font-semibold"><i class="bi bi-check-circle"></i> Publish</button>
+                                    </form>
+                                    <form method="POST" :action="'{{ url('/admin/materials') }}/' + m.id" onsubmit="return confirm('Hapus materi ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-rose-600 hover:text-rose-800 text-xs font-semibold"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template x-if="activeSubject && !activeSubject.materials.length">
+                    <p class="text-sm text-gray-400 text-center py-4">Belum ada materi untuk mata pelajaran ini.</p>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    </div>
 @endsection

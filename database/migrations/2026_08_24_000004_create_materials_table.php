@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('club_session_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('club_session_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('type');
             $table->string('path')->nullable();

@@ -17,4 +17,14 @@ class Subject extends Model
     {
         return ['is_published' => 'boolean'];
     }
+
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(ClubSession::class);
+    }
 }

@@ -84,9 +84,10 @@
 
                         <!-- Card Footer -->
                         <div class="mt-auto pt-4 flex items-center justify-end gap-2">
-                            <button class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg text-xs font-semibold transition-colors duration-200">
-                                Details
-                            </button>
+                            <a :href="'/student/subjects/' + s.id"
+                               class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg text-xs font-semibold transition-colors duration-200 inline-flex items-center gap-1">
+                                Details <i class="bi bi-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

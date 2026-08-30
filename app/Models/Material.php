@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
 {
-    protected $fillable = ['club_session_id', 'title', 'type', 'path', 'url', 'is_published'];
+    protected $fillable = ['club_session_id', 'subject_id', 'title', 'type', 'path', 'url', 'is_published'];
 
     protected function casts(): array
     {
@@ -16,5 +16,10 @@ class Material extends Model
     public function clubSession()
     {
         return $this->belongsTo(ClubSession::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
     }
 }

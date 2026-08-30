@@ -127,6 +127,18 @@
             <span>Kehadiran & OTP</span>
         </a>
 
+        <a href="{{ route('admin.attendance.history') }}" 
+            @click="setActive('admin_attendance_history')"
+            @mouseenter="setHover('admin_attendance_history')"
+            @mouseleave="clearHover()"
+            :class="(hoveredItem === 'admin_attendance_history' || activeItem === 'admin_attendance_history' || ({{ request()->routeIs('admin.attendance.history*') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) 
+                    ? 'bg-blue-500 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200'"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
+            <i class="bi bi-calendar-check text-base"></i>
+            <span>Riwayat Kehadiran</span>
+        </a>
+
         <a href="{{ route('admin.students') }}" 
             @click="setActive('admin_students')"
             @mouseenter="setHover('admin_students')"

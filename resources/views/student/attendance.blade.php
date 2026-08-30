@@ -24,13 +24,14 @@
 
 @section('content')
 
-    @php($activeSession = ($sessions ?? collect())->first(fn ($session) => $session->isOpen()))
-    @if ($activeSession)
-        <form id="attendance-form" method="POST" action="{{ route('student.attendance.store', $activeSession) }}" class="hidden">
+    @php($openSessions = $openSessions ?? collect())
+
+    @foreach ($openSessions as $openSession)
+        <form id="attendance-form-{{ $openSession->id }}" method="POST" action="{{ route('student.attendance.store', $openSession) }}" class="hidden">
             @csrf
-            <input id="attendance-code" type="hidden" name="code">
+            <input id="attendance-code-{{ $openSession->id }}" type="hidden" name="code">
         </form>
-    @endif
+    @endforeach
 
     <div class="relative min-h-[65vh] flex flex-col items-center" x-data="attendance()" @paste="onPaste($event)">
 
@@ -44,6 +45,32 @@
             <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">Daily Attendance</h2>
             <p class="text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">Enter the 6-digit code provided by your instructor to confirm your presence for today's session.</p>
         </div>
+
+        <!-- Session Picker Cards -->
+        @if ($openSessions->count() > 1)
+            <div class="relative z-10 w-full max-w-md mb-6">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 text-center">Pilih Sesi Presensi</p>
+                <div class="space-y-2.5">
+                    <template x-for="(s, i) in sessions" :key="s.id">
+                        <button type="button"
+                                class="w-full text-left rounded-2xl border-2 bg-white/80 backdrop-blur px-4 py-3 transition"
+                                :class="selectedId === s.id ? 'border-blue-600 ring-2 ring-blue-100' : 'border-gray-200 hover:border-blue-300'"
+                                @click="selectedId = s.id">
+                            <span class="flex items-center justify-between gap-2">
+                                <span class="min-w-0">
+                                    <span class="block text-sm font-bold text-gray-900 truncate" x-text="s.title"></span>
+                                    <span class="block text-xs text-gray-500 mt-0.5" x-text="(s.subject ? s.subject + ' · ' : '') + s.time"></span>
+                                </span>
+                                <span class="shrink-0">
+                                    <i class="bi bi-check-circle-fill text-blue-600 text-lg" x-show="selectedId === s.id"></i>
+                                    <i class="bi bi-circle text-gray-300 text-lg" x-show="selectedId !== s.id"></i>
+                                </span>
+                            </span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+        @endif
 
         <!-- OTP Card -->
         <div class="relative z-10 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8 mb-12">
@@ -89,33 +116,44 @@
             </div>
         </div>
 
-        @if ($activeSession && $activeSession->materials->isNotEmpty())
-            <div class="relative z-10 mb-8 w-full max-w-md rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                <h3 class="font-bold text-gray-900">Materi Sesi</h3>
-                <div class="mt-3 space-y-2">
-                    @foreach ($activeSession->materials as $material)
-                        @if ($material->is_published && $activeSession->attendances->contains('user_id', auth()->id()))
-                            <a href="{{ route('student.materials.show', $material) }}" class="flex items-center justify-between gap-3 rounded-xl bg-gray-50 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50">
-                                <span class="truncate">{{ $material->title }}</span>
-                                <i class="bi bi-box-arrow-up-right shrink-0"></i>
-                            </a>
-                        @endif
-                    @endforeach
+        @foreach ($openSessions as $openSession)
+            @php($studentAttendance = $openSession->attendances->first(fn ($a) => $a->user_id === auth()->id()))
+            @if ($openSession->materials->isNotEmpty())
+                <div class="relative z-10 mb-8 w-full max-w-md rounded-2xl border border-gray-200 bg-white p-5 shadow-sm" x-show="selectedId === {{ $openSession->id }}">
+                    <h3 class="font-bold text-gray-900">Materi {{ $openSession->title }}</h3>
+                    <div class="mt-3 space-y-2">
+                        @foreach ($openSession->materials as $material)
+                            @if ($material->is_published && $studentAttendance && $studentAttendance->status === \App\Models\Attendance::STATUS_HADIR)
+                                <a href="{{ route('student.materials.show', $material) }}" class="flex items-center justify-between gap-3 rounded-xl bg-gray-50 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50">
+                                    <span class="truncate">{{ $material->title }}</span>
+                                    <i class="bi bi-box-arrow-up-right shrink-0"></i>
+                                </a>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        @endforeach
     </div>
 
     <script>
         function attendance() {
             return {
                 digits: Array(6).fill(''),
+                sessions: @js($openSessions->map(fn ($s) => [
+                    'id' => $s->id,
+                    'title' => $s->title,
+                    'subject' => $s->subject?->name,
+                    'time' => $s->scheduled_at?->format('d M Y · H:i') ?? 'Belum dijadwalkan',
+                ])->values()),
+                selectedId: null,
                 error: '',
                 verified: false,
                 seconds: 298,
                 timer: null,
 
                 init() {
+                    if (this.sessions.length > 0) this.selectedId = this.sessions[0].id;
                     this.timer = setInterval(() => {
                         if (this.seconds > 0) this.seconds--;
                         else clearInterval(this.timer);
@@ -167,13 +205,14 @@
                         this.error = 'Masukkan lengkap 6 digit kode OTP.';
                         return;
                     }
-                    @if (! $activeSession)
+                    const session = this.sessions.find(s => s.id === this.selectedId);
+                    if (!session) {
                         this.error = 'Belum ada sesi presensi yang sedang dibuka.';
                         return;
-                    @endif
+                    }
                     this.error = '';
-                    const form = document.getElementById('attendance-form');
-                    document.getElementById('attendance-code').value = this.code;
+                    const form = document.getElementById('attendance-form-' + session.id);
+                    document.getElementById('attendance-code-' + session.id).value = this.code;
                     form.submit();
                 }
             }

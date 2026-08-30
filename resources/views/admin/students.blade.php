@@ -83,20 +83,24 @@
                             </td>
                             <td class="px-4 py-3 text-right">
                                 <div class="flex flex-wrap justify-end gap-2">
-                                    <form method="POST" :action="'{{ url('/admin/students') }}/' + s.id + '/status'" class="flex items-center gap-1">
+                                    <form method="POST" :action="'{{ url('/admin/students') }}/' + s.id + '/status'" class="flex items-center gap-1.5">
                                         @csrf
                                         @method('PATCH')
-                                        <select name="status" class="rounded border border-gray-200 px-1 py-1 text-[11px]">
+                                        <select name="status" class="rounded-lg border border-gray-200 px-2 py-1.5 text-xs focus:ring-2 focus:ring-blue-500">
                                             <option value="active" :selected="s.status === 'active'">Aktif</option>
                                             <option value="pending" :selected="s.status === 'pending'">Pending</option>
                                             <option value="rejected" :selected="s.status === 'rejected'">Ditolak</option>
                                         </select>
-                                        <button class="text-blue-600 hover:text-blue-800 text-xs font-semibold"><i class="bi bi-check2"></i></button>
+                                        <button title="Simpan status" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shadow-sm">
+                                            Apply
+                                        </button>
                                     </form>
                                     <form method="POST" :action="'{{ url('/admin/students') }}/' + s.id" onsubmit="return confirm('Hapus siswa ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="text-rose-600 hover:text-rose-800 text-xs font-semibold"><i class="bi bi-trash"></i> Hapus</button>
+                                        <button title="Hapus siswa" class="bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1">
+                                            <i class="bi bi-trash text-sm"></i> Hapus
+                                        </button>
                                     </form>
                                 </div>
                             </td>

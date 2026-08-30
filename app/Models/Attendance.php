@@ -25,4 +25,9 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function clubSession()
+    {
+        return $this->belongsTo(ClubSession::class);
+    }
 }

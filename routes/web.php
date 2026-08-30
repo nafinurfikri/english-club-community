@@ -38,11 +38,17 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::get('/search', [AdminSearchController::class, 'index'])->name('admin.search');
 
     Route::get('/attendance', [AdminSessionController::class, 'index'])->name('admin.attendance');
+    Route::get('/attendance/history', [AdminSessionController::class, 'history'])->name('admin.attendance.history');
+    Route::get('/attendance/history/{clubSession}', [AdminSessionController::class, 'historySession'])->name('admin.attendance.history.session');
     Route::post('/sessions', [AdminSessionController::class, 'store'])->name('admin.sessions.store');
     Route::patch('/sessions/{clubSession}/open', [AdminSessionController::class, 'open'])->name('admin.sessions.open');
     Route::patch('/sessions/{clubSession}/close', [AdminSessionController::class, 'close'])->name('admin.sessions.close');
     Route::patch('/sessions/{clubSession}/code', [AdminSessionController::class, 'regenerateCode'])->name('admin.sessions.code');
+    Route::patch('/sessions/{clubSession}/revoke-code', [AdminSessionController::class, 'revokeCode'])->name('admin.sessions.revoke-code');
+    Route::get('/sessions/{clubSession}/otp', [AdminSessionController::class, 'otp'])->name('admin.sessions.otp');
     Route::post('/sessions/{clubSession}/materials', [AdminSessionController::class, 'storeMaterial'])->name('admin.materials.store');
+    Route::patch('/session-materials/{material}', [AdminSessionController::class, 'publishSessionMaterial'])->name('admin.session-materials.publish');
+    Route::delete('/session-materials/{material}', [AdminSessionController::class, 'destroySessionMaterial'])->name('admin.session-materials.destroy');
     Route::patch('/attendance/status', [AdminSessionController::class, 'updateStatus'])->name('admin.attendance.status');
 
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students');
@@ -62,6 +68,9 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
     Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
     Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy'])->name('admin.subjects.destroy');
+    Route::post('/subjects/{subject}/materials', [SubjectController::class, 'storeMaterial'])->name('admin.subjects.materials.store');
+    Route::put('/materials/{material}', [SubjectController::class, 'updateMaterial'])->name('admin.subjects.materials.update');
+    Route::delete('/materials/{material}', [SubjectController::class, 'destroyMaterial'])->name('admin.subjects.materials.destroy');
 
     Route::get('/announcements', [AdminContentController::class, 'announcements'])->name('admin.announcements');
     Route::post('/announcements', [AdminContentController::class, 'announcement'])->name('admin.announcements.store');
@@ -86,6 +95,7 @@ Route::middleware(['auth', 'active'])->prefix('student')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('student.dashboard');
 
     Route::get('/subjects', [SubjectController::class, 'studentIndex'])->name('student.subjects');
+    Route::get('/subjects/{subject}', [SubjectController::class, 'show'])->name('student.subjects.show');
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('student.attendance');
     Route::post('/attendance/{clubSession}', [AttendanceController::class, 'store'])->name('student.attendance.store');
