@@ -56,7 +56,7 @@
                         <p class="text-sm font-semibold text-gray-900 truncate">{{ $session->title }}</p>
                         <span class="text-xs text-gray-500">{{ $session->scheduled_at?->format('d M Y H:i') ?? 'Belum dijadwalkan' }}</span>
                     </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
+                    <div class="flex flex-wrap items-center justify-end gap-1.5">
                         <button type="button"
                                 @click="materialSessionId = {{ $session->id }}; showMaterials = true"
                                 class="text-xs font-semibold bg-gray-50 text-gray-700 hover:bg-gray-100 rounded-lg px-2.5 py-1.5">

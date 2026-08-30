@@ -5,6 +5,11 @@
 @section('header')
     <header class="bg-white shadow-sm border-b border-gray-100 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3"
             x-data="{ search: '' }">
+        <button @click="sidebarOpen = true" aria-label="Menu"
+                class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition shrink-0">
+            <i class="bi bi-list text-2xl"></i>
+        </button>
+
         <div class="min-w-0">
             <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Kurikulum &amp; Mata Pelajaran</h1>
             <p class="text-xs sm:text-sm text-gray-500">View details of your current enrollments and available learning modules.</p>

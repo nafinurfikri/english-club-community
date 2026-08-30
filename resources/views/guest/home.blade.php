@@ -17,7 +17,7 @@
         <p class="text-gray-600 max-w-xl mx-auto mb-6">
             {{ $hero['subtitle'] ?? 'Gabung dengan English Club Community, tempat latihan speaking, sharing, dan kegiatan seru bareng teman sebaya.' }}
         </p>
-        <div class="flex justify-center gap-3">
+        <div class="flex flex-wrap justify-center gap-3">
             <a href="{{ route('student.register') }}" class="px-5 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition">
                 Gabung Sekarang
             </a>
@@ -40,9 +40,9 @@
     </section>
 
     <section class="bg-blue-500 py-10 px-6 rounded-2xl mb-8">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center gap-4">
                 <i class="bi bi-book text-white text-4xl"></i>
                 <div>
                     <p class="text-2xl sm:text-3xl font-bold text-white">120+</p>
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center gap-4">
                 <i class="bi-diagram-3 text-white text-4xl"></i>
                 <div>
                     <p class="text-2xl sm:text-3xl font-bold text-white">4</p>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center gap-4">
                 <i class="bi bi-calendar-event text-white text-4xl"></i>
                 <div>
                     <p class="text-2xl sm:text-3xl font-bold text-white">4</p>
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center gap-4">
                 <i class="bi bi-award text-white text-4xl"></i>
                 <div>
                     <p class="text-2xl sm:text-3xl font-bold text-white">15+</p>
@@ -82,7 +82,7 @@
             Divisi
         </h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left sm:text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
 
             <div>
                 <i class="bi bi-book-half text-6xl text-gray-900 mb-4 block"></i>
@@ -178,7 +178,7 @@
     <section class="bg-blue-50 rounded-2xl px-6 py-12 text-center">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ $cta['title'] ?? 'Yuk, Gabung Sekarang!' }}</h2>
         <p class="text-gray-900 text-sm mb-6">{{ $cta['body'] ?? 'Jadi bagian dari EC Dwiguna dan asah kemampuan bahasa Inggrismu bareng komunitas.' }}</p>
-        <div class="flex justify-center gap-3">
+        <div class="flex flex-wrap justify-center gap-3">
             <a href="{{ route('student.register') }}" class="px-5 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-500 hover:border transition">
                 Sign Up
             </a>

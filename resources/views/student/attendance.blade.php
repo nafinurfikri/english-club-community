@@ -4,6 +4,11 @@
 
 @section('header')
     <header class="bg-white shadow-sm border-b border-gray-100 px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+        <button @click="sidebarOpen = true" aria-label="Menu"
+                class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition shrink-0">
+            <i class="bi bi-list text-2xl"></i>
+        </button>
+
         <div>
             <h1 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight">Presensi Kehadiran</h1>
             <p class="text-xs sm:text-sm text-gray-500">Daily attendance verification via One-Time Password (OTP) authentication</p>
@@ -73,7 +78,7 @@
         @endif
 
         <!-- OTP Card -->
-        <div class="relative z-10 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8 mb-12">
+        <div class="relative z-10 bg-white/80 backdrop-blur rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-6 sm:p-8 mb-12">
             <div class="flex justify-center mb-7">
                 <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl">
                     <i class="bi bi-fingerprint"></i>
@@ -81,14 +86,14 @@
             </div>
 
             <!-- OTP Inputs -->
-            <div class="flex justify-center gap-2 sm:gap-2.5 mb-7">
+            <div class="flex justify-center gap-1.5 sm:gap-2.5 mb-7">
                 <template x-for="(d, i) in digits" :key="i">
                     <input type="text" inputmode="numeric" maxlength="1"
                            :id="'otp-' + i"
                            x-model="digits[i]"
                            @input="onInput(i, $event)"
                            @keydown.backspace="onBackspace(i)"
-                           class="w-11 sm:w-12 h-14 rounded-xl border-2 text-center text-xl font-bold text-gray-800 bg-gray-50 focus:bg-white focus:outline-none transition-colors duration-200"
+                           class="w-9 sm:w-12 h-14 rounded-xl border-2 text-center text-xl font-bold text-gray-800 bg-gray-50 focus:bg-white focus:outline-none transition-colors duration-200"
                            :class="digits[i] !== '' ? 'border-blue-600' : 'border-gray-200/80 focus:border-blue-600'">
                 </template>
             </div>

@@ -1,17 +1,20 @@
+@php($drawerOnly = $drawerOnly ?? false)
+
 <div 
     x-show="sidebarOpen" 
     @click="sidebarOpen = false"
     x-transition.opacity
-    class="fixed inset-0 bg-black/40 z-30 lg:hidden"
+    class="fixed inset-0 bg-black/40 z-30 {{ $drawerOnly ? '' : 'lg:hidden' }}"
     style="display: none;">
 </div>
 
 <aside 
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+    :class="sidebarOpen ? 'translate-x-0' : ''"
     class="w-64 max-w-[85vw] p-4 border-r border-gray-200 bg-gray-100 h-screen overflow-y-auto flex flex-col
-           fixed lg:sticky top-0 z-40 transition-transform duration-300">
+           -translate-x-full {{ $drawerOnly ? '' : 'lg:translate-x-0' }}
+           {{ $drawerOnly ? 'fixed' : 'fixed lg:sticky' }} top-0 z-50 transition-transform duration-300">
 
-    <button @click="sidebarOpen = false" class="lg:hidden mb-4 text-gray-500">
+    <button @click="sidebarOpen = false" class="{{ $drawerOnly ? '' : 'lg:hidden' }} mb-4 text-gray-500">
         <i class="bi bi-x-lg text-xl"></i>
     </button>
 
@@ -42,7 +45,7 @@
             }
                 }">
 
-        @if (request()->routeIs('home', 'about', 'announcement', 'gallery'))
+        @if (request()->routeIs('home', 'about', 'announcement', 'gallery', 'student.register', 'login'))
         <!-- GUEST SECTION -->
         <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
             Public / Guest
@@ -95,6 +98,45 @@
             <i class="bi bi-image text-base"></i>
             <span>Gallery</span>
         </a>
+
+        <!-- GUEST ACCOUNT -->
+        <div class="px-3 pt-4 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+            Akun
+        </div>
+        @auth
+        <div class="flex items-center gap-2.5 px-3 py-2 mb-1">
+            <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold uppercase shrink-0">
+                {{ str(auth()->user()->name)->substr(0, 2) }}
+            </div>
+            <div class="min-w-0">
+                <p class="text-sm font-bold text-gray-800 truncate">{{ auth()->user()->name }}</p>
+                <span class="text-xs text-gray-500">{{ auth()->user()->role === 'admin' ? 'Admin' : 'Student' }}</span>
+            </div>
+        </div>
+        <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('student.dashboard') }}"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">
+            <i class="bi bi-speedometer2 text-base"></i>
+            <span>Dashboard</span>
+        </a>
+        <form method="POST" action="{{ route('logout') }}" class="mt-1">
+            @csrf
+            <button type="submit" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-rose-600 hover:bg-rose-50">
+                <i class="bi bi-box-arrow-right text-base"></i>
+                <span>Logout</span>
+            </button>
+        </form>
+        @else
+        <a href="{{ route('login') }}"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">
+            <i class="bi bi-box-arrow-in-right text-base"></i>
+            <span>Login</span>
+        </a>
+        <a href="{{ route('student.register') }}"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-200">
+            <i class="bi bi-person-plus text-base"></i>
+            <span>Daftar</span>
+        </a>
+        @endauth
         @endif
 
         @if (request()->routeIs('admin.*'))
@@ -189,7 +231,7 @@
 
         @endif
 
-        @if (request()->routeIs('student.*'))
+        @if (request()->routeIs('student.*') && !request()->routeIs('student.register'))
     <!-- STUDENT SECTION -->
     <div class="px-3 pt-4 pb-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
         Student Menu
@@ -254,7 +296,7 @@
 
     </nav>
 
-    @if (request()->routeIs('admin.*') || request()->routeIs('student.*'))
+    @if (request()->routeIs('admin.*') || (request()->routeIs('student.*') && !request()->routeIs('student.register')))
     <!-- User Menu Card -->
     <div class="relative mt-auto pt-6" x-data="{ open: false }">
         <div x-show="open" @click.away="open = false"
@@ -269,7 +311,7 @@
                class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                 <i class="bi bi-speedometer2 text-blue-600"></i> Dashboard
             </a>
-            @if (request()->routeIs('student.*'))
+@if (request()->routeIs('student.*') && !request()->routeIs('student.register'))
             <a href="{{ route('student.profile') }}"
                class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                 <i class="bi bi-person text-blue-600"></i> Profile
