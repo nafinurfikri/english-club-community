@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'English Club Community')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/ec.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>

@@ -275,6 +275,26 @@
                 <i class="bi bi-person text-blue-600"></i> Profile
             </a>
             @endif
+
+            <div class="my-1 border-t border-gray-100"></div>
+
+            <a href="{{ route('home') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-house text-blue-600"></i> Home
+            </a>
+            <a href="{{ route('about') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-info-circle text-blue-600"></i> About
+            </a>
+            <a href="{{ route('gallery') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-image text-blue-600"></i> Gallery
+            </a>
+            <a href="{{ route('announcement') }}"
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <i class="bi bi-bell text-blue-600"></i> Announcement
+            </a>
+
             <div class="my-1 border-t border-gray-100"></div>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
