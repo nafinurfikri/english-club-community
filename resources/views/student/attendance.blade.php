@@ -112,7 +112,14 @@
             <!-- Time Remaining -->
             <div class="mt-7 pt-5 border-t border-gray-100 flex items-center justify-between">
                 <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Time Remaining</span>
-                <span class="text-2xl font-extrabold text-blue-600" :class="seconds <= 30 && '!text-rose-600'" x-text="timerText"></span>
+                <span class="text-2xl font-extrabold text-blue-600" :class="seconds <= 30 && '!text-rose-600'" >
+                    <template x-if="selectedSession() && selectedSession().expiresAt">
+                        <span x-text="timerText"></span>
+                    </template>
+                    <template x-if="!selectedSession() || !selectedSession().expiresAt">
+                        <span class="text-sm font-semibold text-gray-400">Tidak ada kode aktif</span>
+                    </template>
+                </span>
             </div>
         </div>
 
@@ -145,20 +152,32 @@
                     'title' => $s->title,
                     'subject' => $s->subject?->name,
                     'time' => $s->scheduled_at?->format('d M Y · H:i') ?? 'Belum dijadwalkan',
-                ])->values()),
+                    'expiresAt' => $otpExpiresAt[$s->id] ?? null,
+                ])->values()->all()),
                 selectedId: null,
                 error: '',
                 verified: false,
-                seconds: 298,
+                seconds: 0,
                 timer: null,
 
                 init() {
                     if (this.sessions.length > 0) this.selectedId = this.sessions[0].id;
-                    this.timer = setInterval(() => {
-                        if (this.seconds > 0) this.seconds--;
-                        else clearInterval(this.timer);
-                    }, 1000);
+                    this.timer = setInterval(() => this.tick(), 1000);
                     this.$nextTick(() => this.focusBox(0));
+                },
+
+                selectedSession() {
+                    return this.sessions.find(s => s.id === this.selectedId);
+                },
+
+                tick() {
+                    const session = this.selectedSession();
+                    if (!session || !session.expiresAt) {
+                        this.seconds = 0;
+                        return;
+                    }
+                    const remaining = Math.max(0, Math.ceil((new Date(session.expiresAt).getTime() - Date.now()) / 1000));
+                    if (remaining !== this.seconds) this.seconds = remaining;
                 },
 
                 get timerText() {
@@ -197,10 +216,6 @@
 
                 verify() {
                     if (this.verified) return;
-                    if (this.seconds <= 0) {
-                        this.error = 'Waktu habis. Minta kode OTP baru kepada instruktor.';
-                        return;
-                    }
                     if (this.code.length < 6) {
                         this.error = 'Masukkan lengkap 6 digit kode OTP.';
                         return;
@@ -210,10 +225,25 @@
                         this.error = 'Belum ada sesi presensi yang sedang dibuka.';
                         return;
                     }
+                    if (!session.expiresAt) {
+                        this.error = 'Belum ada kode presensi aktif untuk sesi ini.';
+                        return;
+                    }
+                    if (this.tickAndExpired()) {
+                        this.error = 'Waktu habis. Minta kode OTP baru kepada instruktor.';
+                        return;
+                    }
                     this.error = '';
                     const form = document.getElementById('attendance-form-' + session.id);
                     document.getElementById('attendance-code-' + session.id).value = this.code;
                     form.submit();
+                },
+
+                tickAndExpired() {
+                    if (!this.selectedSession() || !this.selectedSession().expiresAt) return true;
+                    const remaining = Math.ceil((new Date(this.selectedSession().expiresAt).getTime() - Date.now()) / 1000);
+                    this.seconds = Math.max(0, remaining);
+                    return remaining <= 0;
                 }
             }
         }

@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
         $totalSessions = ClubSession::count();
         $attendanceCount = Attendance::where('user_id', $request->user()->id)->count();
-        $sessions = ClubSession::whereNotNull('scheduled_at')->where('scheduled_at', '>=', now())->orderBy('scheduled_at')->take(3)->get();
+        $sessions = ClubSession::with('subject')->whereNotNull('scheduled_at')->where('scheduled_at', '>=', now())->orderBy('scheduled_at')->take(3)->get();
         $grades = Grade::where('user_id', $request->user()->id)->whereNotNull('published_at');
 
         return $request->user()->isAdmin()

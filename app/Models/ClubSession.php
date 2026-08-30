@@ -33,6 +33,13 @@ class ClubSession extends Model
         return $this->attendance_code_expires_at !== null && $this->attendance_code_expires_at->isPast();
     }
 
+    public function hasActiveAttendanceCode(): bool
+    {
+        return $this->attendance_code_hash !== null
+            && $this->attendance_code !== null
+            && ! $this->isAttendanceCodeExpired();
+    }
+
     public function subject()
     {
         return $this->belongsTo(Subject::class);

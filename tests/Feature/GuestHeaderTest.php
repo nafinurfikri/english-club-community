@@ -37,7 +37,7 @@ it('menampilkan nama user di header halaman student', function () {
     $student = User::factory()->create(['role' => 'siswa', 'status' => 'active']);
 
     $this->actingAs($student)
-        ->get(route('student.grades'))
+        ->get(route('student.subjects'))
         ->assertOk()
         ->assertSee($student->name)
         ->assertSee('Logout');

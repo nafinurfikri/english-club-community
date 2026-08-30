@@ -37,129 +37,82 @@
     </div>
 
     <!-- Overview Stat Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Mapel Aktif</p>
-                <h3 class="text-2xl font-bold text-gray-900">{{ $sessions->count() }} Sesi</h3>
-                <span class="text-xs text-gray-400 font-medium mt-1 block">In Progress</span>
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Sesi</p>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $attendanceCount }} Presensi</h3>
+                <span class="text-xs text-gray-400 font-medium mt-1 block">Kehadiran tercatat</span>
             </div>
             <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg shrink-0">
-                <i class="bi bi-book-fill"></i>
-            </div>
-        </div>
-
-        <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
-            <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Kehadiran Bulan Ini</p>
-                <h3 class="text-2xl font-bold text-gray-900">{{ $attendancePercentage }}%</h3>
-                <span class="text-xs text-gray-400 font-medium mt-1 block">18 of 19 Sessions</span>
-            </div>
-            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
                 <i class="bi bi-calendar-check-fill"></i>
             </div>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Rata-rata Nilai</p>
-                <h3 class="text-2xl font-bold text-gray-900">{{ $gradeAverage }}</h3>
-                <span class="text-xs text-gray-400 font-medium mt-1 block">Rata-rata nilai published</span>
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Tingkat Kehadiran</p>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $attendancePercentage }}%</h3>
+                <span class="text-xs text-gray-400 font-medium mt-1 block">Dari seluruh sesi</span>
             </div>
-            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
-                <i class="bi bi-award-fill"></i>
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
+                <i class="bi bi-percent"></i>
             </div>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex items-start justify-between gap-3">
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Pengumuman Baru</p>
-                <h3 class="text-2xl font-bold text-gray-900">3 Unread</h3>
-                <span class="text-xs text-gray-400 font-medium mt-1 block">Important updates</span>
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Mata Pelajaran</p>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $sessions->count() }} Sesi</h3>
+                <span class="text-xs text-gray-400 font-medium mt-1 block">Akan datang</span>
             </div>
-            <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shrink-0">
-                <i class="bi bi-bell-fill"></i>
+            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
+                <i class="bi bi-book-fill"></i>
             </div>
         </div>
     </div>
 
-    <!-- Recent Activities & Upcoming Schedule -->
+    <!-- Upcoming Sessions -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
 
-        <!-- Recent Activities -->
-        <div class="lg:col-span-3 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
-            <h3 class="text-base font-bold text-gray-900 mb-4">Recent Activities</h3>
-
+        <!-- Quick Access -->
+        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+            <h3 class="text-base font-bold text-gray-900 mb-4">Akses Cepat</h3>
             <div class="space-y-3">
-                <div class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 flex items-center justify-between gap-3">
-                    <div>
-                        <p class="text-sm font-semibold text-gray-900">Submitted Assignment 2</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Advanced Grammar &bull; 2 hours ago</p>
-                    </div>
-                    <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap">On Time</span>
-                </div>
-
-                <div class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 flex items-center justify-between gap-3">
-                    <div>
-                        <p class="text-sm font-semibold text-gray-900">Attended Live Session</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Conversational Practice &bull; Yesterday</p>
-                    </div>
-                    <span class="bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap">Attended</span>
-                </div>
-
-                <div class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3.5 flex items-center justify-between gap-3">
-                    <div>
-                        <p class="text-sm font-semibold text-gray-900">Grades Released: Midterm Test</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Listening Comprehension &bull; 3 days ago</p>
-                    </div>
-                    <span class="bg-amber-100 text-amber-700 px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap">A</span>
-                </div>
+                <a href="{{ route('student.subjects') }}" class="block rounded-xl border border-gray-100 px-4 py-3.5 hover:bg-blue-50 transition">
+                    <p class="text-sm font-semibold text-gray-900">Mata Pelajaran & Materi</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Lihat materi setelah presensi</p>
+                </a>
+                <a href="{{ route('student.attendance') }}" class="block rounded-xl border border-gray-100 px-4 py-3.5 hover:bg-blue-50 transition">
+                    <p class="text-sm font-semibold text-gray-900">Presensi Kehadiran</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Masukkan kode OTP sesi hari ini</p>
+                </a>
             </div>
         </div>
 
-        <!-- Upcoming Schedule -->
-        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+        <!-- Upcoming Schedule (real data) -->
+        <div class="lg:col-span-3 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-gray-900">Upcoming Schedule</h3>
-                <a href="#" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1">
-                    View Full <i class="bi bi-arrow-right"></i>
-                </a>
+                <h3 class="text-base font-bold text-gray-900">Jadwal Sesi Akan Datang</h3>
             </div>
 
-            <div class="space-y-3">
-                <div class="border border-gray-100 rounded-xl px-4 py-3.5">
-                    <p class="text-sm font-semibold text-gray-900">Advanced Grammar</p>
-                    <p class="text-xs text-gray-500 mt-0.5">Today, 10:00 AM - 12:00 PM</p>
-                    <div class="flex items-center justify-between gap-2 mt-2.5">
-                        <span class="text-xs text-gray-500 flex items-center gap-1.5">
-                            <i class="bi bi-person"></i> Dr. Elizabeth Stone
-                        </span>
-                        <span class="text-xs font-semibold text-blue-600">Room 302 / Zoom</span>
-                    </div>
+            @if ($sessions->isEmpty())
+                <p class="text-sm text-gray-400 text-center py-6">Belum ada sesi terjadwal.</p>
+            @else
+                <div class="space-y-3">
+                    @foreach ($sessions as $session)
+                        <div class="border border-gray-100 rounded-xl px-4 py-3.5">
+                            <p class="text-sm font-semibold text-gray-900">{{ $session->title }}</p>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                {{ $session->scheduled_at?->format('l, d M Y · H:i') ?? 'Belum dijadwalkan' }}
+                            </p>
+                            @if ($session->subject)
+                                <span class="text-xs font-semibold text-blue-600">{{ $session->subject->name }}</span>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
-
-                <div class="border border-gray-100 rounded-xl px-4 py-3.5">
-                    <p class="text-sm font-semibold text-gray-900">Conversational Practice</p>
-                    <p class="text-xs text-gray-500 mt-0.5">Tomorrow, 02:00 PM - 04:00 PM</p>
-                    <div class="flex items-center justify-between gap-2 mt-2.5">
-                        <span class="text-xs text-gray-500 flex items-center gap-1.5">
-                            <i class="bi bi-person"></i> James Mitchell, M.A.
-                        </span>
-                        <span class="text-xs font-semibold text-blue-600">Auditorium B</span>
-                    </div>
-                </div>
-
-                <div class="border border-gray-100 rounded-xl px-4 py-3.5">
-                    <p class="text-sm font-semibold text-gray-900">Listening Comprehension</p>
-                    <p class="text-xs text-gray-500 mt-0.5">Friday, 09:00 AM - 11:00 AM</p>
-                    <div class="flex items-center justify-between gap-2 mt-2.5">
-                        <span class="text-xs text-gray-500 flex items-center gap-1.5">
-                            <i class="bi bi-person"></i> Sarah Connor, B.E.d
-                        </span>
-                        <span class="text-xs font-semibold text-blue-600">Lab English 1</span>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
     </div>
 

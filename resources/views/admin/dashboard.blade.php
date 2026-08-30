@@ -45,7 +45,7 @@
                 </span>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                <i class="bi bi-[calendar-check-fill]"></i>
+                <i class="bi bi-calendar-check-fill"></i>
             </div>
         </div>
 
@@ -104,18 +104,6 @@
                         <div>
                             <h3 class="font-bold text-gray-900 text-sm group-hover:text-emerald-600">Data Anggota Siswa</h3>
                             <p class="text-xs text-gray-500">Kelola NIS, Divisi & data siswa</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="{{ route('admin.grades') }}" class="p-4 border border-gray-100 rounded-xl bg-purple-50/50 hover:bg-purple-50 transition block group">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-purple-500 text-white flex items-center justify-center text-lg group-hover:scale-105 transition">
-                            <i class="bi bi-journal-bookmark"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm group-hover:text-purple-600">Data Nilai Siswa</h3>
-                            <p class="text-xs text-gray-500">Input nilai evaluasi divisi</p>
                         </div>
                     </div>
                 </a>

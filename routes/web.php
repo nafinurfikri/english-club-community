@@ -7,7 +7,6 @@ use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GradeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\PublicContentController;
 use App\Http\Controllers\StudentProfileController;
@@ -56,14 +55,6 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::patch('/students/{user}/status', [AdminStudentController::class, 'updateStatus'])->name('admin.students.status');
     Route::delete('/students/{user}', [AdminStudentController::class, 'destroy'])->name('admin.students.destroy');
 
-    Route::get('/grades', [GradeController::class, 'adminIndex'])->name('admin.grades');
-    Route::post('/grades', [GradeController::class, 'store'])->name('admin.grades.store');
-    Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('admin.grades.update');
-    Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('admin.grades.destroy');
-    Route::post('/grade-categories', [GradeController::class, 'storeCategory'])->name('admin.grade-categories.store');
-    Route::put('/grade-categories/{gradeCategory}', [GradeController::class, 'updateCategory'])->name('admin.grade-categories.update');
-    Route::delete('/grade-categories/{gradeCategory}', [GradeController::class, 'destroyCategory'])->name('admin.grade-categories.destroy');
-
     Route::get('/subjects', [SubjectController::class, 'adminIndex'])->name('admin.subjects');
     Route::post('/subjects', [SubjectController::class, 'store'])->name('admin.subjects.store');
     Route::put('/subjects/{subject}', [SubjectController::class, 'update'])->name('admin.subjects.update');
@@ -76,9 +67,6 @@ Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->group(function 
     Route::post('/announcements', [AdminContentController::class, 'announcement'])->name('admin.announcements.store');
     Route::put('/announcements/{announcement}', [AdminContentController::class, 'updateAnnouncement'])->name('admin.announcements.update');
     Route::delete('/announcements/{announcement}', [AdminContentController::class, 'deleteAnnouncement'])->name('admin.announcements.destroy');
-
-    Route::get('/landing', [AdminContentController::class, 'landingIndex'])->name('admin.landing');
-    Route::put('/landing/{key}', [AdminContentController::class, 'landing'])->name('admin.landing.update');
 
     Route::get('/gallery', [AdminContentController::class, 'gallery'])->name('admin.gallery');
     Route::post('/gallery', [AdminContentController::class, 'galleryItem'])->name('admin.gallery.store');
@@ -100,8 +88,6 @@ Route::middleware(['auth', 'active'])->prefix('student')->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('student.attendance');
     Route::post('/attendance/{clubSession}', [AttendanceController::class, 'store'])->name('student.attendance.store');
     Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('student.materials.show');
-
-    Route::get('/grades', [GradeController::class, 'index'])->name('student.grades');
 
     Route::get('/announcements', function () {
         return view('student.announcements');

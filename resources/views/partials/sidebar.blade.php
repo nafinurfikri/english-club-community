@@ -151,18 +151,6 @@
             <span>Data Siswa</span>
         </a>
 
-        <a href="{{ route('admin.grades') }}" 
-            @click="setActive('admin_grades')"
-            @mouseenter="setHover('admin_grades')"
-            @mouseleave="clearHover()"
-            :class="(hoveredItem === 'admin_grades' || activeItem === 'admin_grades' || ({{ request()->routeIs('admin.grades') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) 
-                    ? 'bg-blue-500 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200'"
-            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
-            <i class="bi bi-journal-bookmark text-base"></i>
-            <span>Data Nilai</span>
-        </a>
-
         <a href="{{ route('admin.subjects') }}" 
             @click="setActive('admin_subjects')"
             @mouseenter="setHover('admin_subjects')"
@@ -199,17 +187,6 @@
             <span>Kelola Galeri</span>
         </a>
 
-        <a href="{{ route('admin.landing') }}" 
-            @click="setActive('admin_landing')"
-            @mouseenter="setHover('admin_landing')"
-            @mouseleave="clearHover()"
-            :class="(hoveredItem === 'admin_landing' || activeItem === 'admin_landing' || ({{ request()->routeIs('admin.landing') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) 
-                    ? 'bg-blue-500 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200'"
-            class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
-            <i class="bi bi-layout-text-window-reverse text-base"></i>
-            <span>Edit Landing Page</span>
-        </a>
         @endif
 
         @if (request()->routeIs('student.*'))
@@ -252,16 +229,6 @@
         class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
         <i class="bi bi-calendar-check text-base"></i>
         <span>Presensi</span>
-    </a>
-
-    <a href="{{ route('student.grades') }}"
-        @click="setActive('student_grades')"
-            @mouseenter="setHover('student_grades')"
-        @mouseleave="clearHover()"
-        :class="(hoveredItem === 'student_grades' || activeItem === 'student_grades' || ({{ request()->routeIs('student.grades') ? 'true' : 'false' }} && hoveredItem === null && activeItem === null)) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-200'"
-        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
-        <i class="bi bi-award text-base"></i>
-        <span>Nilai Saya</span>
     </a>
 
     <a href="{{ route('student.announcements') }}"

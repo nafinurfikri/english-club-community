@@ -14,9 +14,16 @@ class AttendanceController extends Controller
             ->latest('scheduled_at')
             ->get();
 
+        $openSessions = $sessions->filter(fn (ClubSession $session) => $session->isOpen());
+
         return view('student.attendance', [
             'sessions' => $sessions,
-            'openSessions' => $sessions->filter(fn (ClubSession $session) => $session->isOpen()),
+            'openSessions' => $openSessions,
+            'otpExpiresAt' => $openSessions->mapWithKeys(fn (ClubSession $session) => [
+                $session->id => $session->hasActiveAttendanceCode()
+                    ? $session->attendance_code_expires_at->toIso8601String()
+                    : null,
+            ]),
         ]);
     }
 
